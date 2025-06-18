@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <?= file_get_contents("./componen/navbar.html")?>
+    <?php include 'componen/navbar.php'; ?>
     <div class="container pulse animated" style="height: 50vh;"><iframe id="video_player" allowfullscreen="" frameborder="0" src="" width="100%" height="100%" style="padding-bottom: 20px;"></iframe></div>
     <div class="container pulse animated">
         <div class="row gy-3">

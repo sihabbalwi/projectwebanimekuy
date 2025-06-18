@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <?= file_get_contents("./componen/navbar.html")?>
+    <?php include 'componen/navbar.php'; ?>
     <div class="container">
         <section class="text-white py-4 py-xl-5">
             <div class="container">

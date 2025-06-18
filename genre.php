@@ -22,7 +22,7 @@
 </head>
 
 <body>
-   <?= file_get_contents("./componen/navbar.html")?>
+   <?php include 'componen/navbar.php'; ?>
     <div class="container">
         <div class="row gy-3" style="margin-top: 20px;">
             <div class="col-md-8 flash animated">
