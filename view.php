@@ -25,6 +25,22 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="assets/css/Articles-Cards-images.css">
     <link rel="stylesheet" href="assets/css/Navbar-Right-Links-Dark-icons.css">
+<style>
+        #list-komentar button {
+    font-size: 12px;
+    padding: 2px 8px;
+    }
+    #list-komentar .fw-bold {
+    font-size: 14px;
+    }
+    #list-komentar p {
+    margin-bottom: 4px;
+    }
+    #list-komentar .ms-5 {
+    border-left: 2px solid #555;
+    padding-left: 10px;
+    }
+</style>
 </head>
 
 <body>
@@ -55,27 +71,37 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
                 </section>
             </div>
             <div class="row">
-            <!-- Komentar -->
-            <div class="col-lg-8 mb-4">
-                <h3 class="text-light">Komentar</h3>
 
-                <div id="comment_section">
-                    <?php if (isset($_SESSION['email'])): ?>
-                        <form id="form-komentar">
-                            <input type="hidden" name="id_episode" value="<?= $episode; ?>">
-                            <div class="mb-3">
-                                <textarea name="komentar" required class="form-control" placeholder="Tulis komentar..." rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-success">Kirim</button>
-                        </form>
-                    <?php else: ?>
-                        <div class="alert alert-warning mt-3">Silakan <a href="/Login/Login.php" class="text-decoration-underline">login terlebih dahulu</a> untuk memberikan komentar.</div>
-                    <?php endif; ?>
-                    <div id="list_komentar" class="mt-4">
-                        <!-- Komentar akan dimuat di sini via JavaScript -->
+            <!-- Komentar -->
+            <!-- Firebase SDK -->
+            <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+            <div class="col-lg-8 mb-4">
+            <h3 class="text-light">Komentar</h3>
+
+            <div class="card bg-transparent text-light">
+                <div class="card-body">
+                <?php if (isset($_SESSION['user'])): ?>
+                    <div class="mb-3 d-flex align-items-center gap-2">
+                    <img src="<?= $_SESSION['avatar'] ?>" alt="Avatar" class="rounded-circle" width="40" height="40">
+                    <b><?= $_SESSION['user'] ?></b>
                     </div>
+                    <form onsubmit="kirimKomentar(event)">
+                    <textarea id="isiKomentar" class="form-control mb-2" placeholder="Tulis komentar..." required></textarea>
+                    <button type="submit" class="btn btn-success">Kirim</button>
+                    </form>
+                <?php else: ?>
+                    <div class="alert alert-warning">
+                    Silakan <a href="/Login/Login.php">login dengan Google</a> terlebih dahulu untuk memberikan komentar.
+                    </div>
+                <?php endif; ?>
+                <hr>
+                <div id="list-komentar"></div>
                 </div>
             </div>
+            </div>
+
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -136,6 +162,167 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
         $("#button_deskripsi").attr("onclick",`window.location = "./detail.php?anime=${id_anime}"`);
     </script>
     <script src="assets/js/view.js"></script>
+
+     <!-- Komentar -->
+    <script>
+        // Firebase Config & Init
+        const firebaseConfig = {
+        apiKey: "AIzaSyAC4JuluOGRPrfC2w5JBS5TfhEOV-Zw_vo",
+        authDomain: "animekuy-komentar.firebaseapp.com",
+        projectId: "animekuy-komentar",
+        storageBucket: "animekuy-komentar.firebasestorage.app",
+        messagingSenderId: "217398398636",
+        appId: "1:217398398636:web:56cc2c567a5c467d09d909",
+        measurementId: "G-42KDL2V0EJ"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const idAnime = parseInt(<?= json_encode($_GET['anime'] ?? 0) ?>);
+        const episodeID = parseInt(<?= json_encode($_GET['episode'] ?? 0) ?>);
+        const namaUser = <?= json_encode($_SESSION['user'] ?? null) ?>;
+        const avatarUser = <?= json_encode($_SESSION['avatar'] ?? null) ?>;
+        const userEmail = <?= json_encode($_SESSION['email'] ?? null) ?>;
+
+        function kirimKomentar(e) {
+        e.preventDefault();
+        const isi = document.getElementById("isiKomentar").value.trim();
+        if (!isi) return alert("Komentar kosong!");
+        db.collection("komentar").add({
+            id_anime: idAnime,
+            episode: episodeID,
+            isi: isi,
+            nama: namaUser,
+            avatar: avatarUser,
+            waktu: firebase.firestore.FieldValue.serverTimestamp(),
+            parent_id: null,
+            likes: [],
+            dislikes: []
+        }).then(() => {
+            document.getElementById("isiKomentar").value = "";
+        });
+        }
+
+        function tampilkanKomentar() {
+        db.collection("komentar")
+            .where("id_anime", "==", idAnime)
+            .where("episode", "==", episodeID)
+            .onSnapshot(snapshot => {
+            const komentarUtama = [];
+            const balasan = {};
+
+            snapshot.forEach(doc => {
+                const data = { id: doc.id, ...doc.data() };
+                if (!data.parent_id) {
+                komentarUtama.push(data);
+                } else {
+                if (!balasan[data.parent_id]) balasan[data.parent_id] = [];
+                balasan[data.parent_id].push(data);
+                }
+            });
+
+            const list = document.getElementById("list-komentar");
+            list.innerHTML = "";
+
+            komentarUtama.forEach(k => {
+                list.innerHTML += renderKomentar(k, balasan[k.id] || []);
+            });
+            });
+        }
+
+        function renderKomentar(data, children = []) {
+        const waktu = data.waktu?.toDate().toLocaleString() ?? "-";
+        const avatar = data.avatar ?? "https://www.gravatar.com/avatar?d=mp";
+        const likeCount = (data.likes || []).length;
+        const dislikeCount = (data.dislikes || []).length;
+
+        let html = `
+            <div class="d-flex mb-3">
+            <img src="${avatar}" class="rounded-circle me-3" width="40" height="40">
+            <div class="flex-grow-1">
+                <div class="fw-bold">${data.nama} <small class="text-muted">• ${waktu}</small></div>
+                <p class="mb-1">${data.isi}</p>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                <button class="btn btn-sm btn-outline-success" onclick="likeKomentar('${data.id}')">👍 ${likeCount}</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="dislikeKomentar('${data.id}')">👎 ${dislikeCount}</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="toggleBalasan('${data.id}')">Balas</button>
+                </div>
+                <div id="form-balas-${data.id}" style="display:none;" class="mb-2">
+                <textarea id="input-balasan-${data.id}" class="form-control mb-2" placeholder="Tulis balasan..."></textarea>
+                <button class="btn btn-primary btn-sm" onclick="kirimBalasan('${data.id}')">Kirim Balasan</button>
+                </div>
+            </div>
+            </div>`;
+
+        if (children.length > 0) {
+            children.forEach(reply => {
+            html += `
+                <div class="d-flex ms-5 mb-2">
+                <img src="${reply.avatar}" class="rounded-circle me-3" width="32" height="32">
+                <div>
+                    <div class="fw-bold">${reply.nama} <small class="text-muted">${reply.waktu?.toDate().toLocaleString() ?? "-"}</small></div>
+                    <p class="mb-1">${reply.isi}</p>
+                </div>
+                </div>`;
+            });
+        }
+
+        return html;
+        }
+
+        function toggleBalasan(id) {
+        const el = document.getElementById(`form-balas-${id}`);
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function kirimBalasan(parentId) {
+        const isi = document.getElementById(`input-balasan-${parentId}`).value.trim();
+        if (!isi) return alert("Balasan kosong!");
+        db.collection("komentar").add({
+            id_anime: idAnime,
+            episode: episodeID,
+            isi: isi,
+            nama: namaUser,
+            avatar: avatarUser,
+            waktu: firebase.firestore.FieldValue.serverTimestamp(),
+            parent_id: parentId,
+            likes: [],
+            dislikes: []
+        }).then(() => {
+            document.getElementById(`input-balasan-${parentId}`).value = "";
+            toggleBalasan(parentId);
+        });
+        }
+
+        function likeKomentar(id) {
+        db.collection("komentar").doc(id).get().then(doc => {
+            const d = doc.data();
+            const likes = d.likes || [], dislikes = d.dislikes || [];
+            const ops = {};
+            if (!likes.includes(userEmail)) {
+            ops.likes = firebase.firestore.FieldValue.arrayUnion(userEmail);
+            ops.dislikes = firebase.firestore.FieldValue.arrayRemove(userEmail);
+            db.collection("komentar").doc(id).update(ops);
+            }
+        });
+        }
+
+        function dislikeKomentar(id) {
+        db.collection("komentar").doc(id).get().then(doc => {
+            const d = doc.data();
+            const dislikes = d.dislikes || [], likes = d.likes || [];
+            const ops = {};
+            if (!dislikes.includes(userEmail)) {
+            ops.dislikes = firebase.firestore.FieldValue.arrayUnion(userEmail);
+            ops.likes = firebase.firestore.FieldValue.arrayRemove(userEmail);
+            db.collection("komentar").doc(id).update(ops);
+            }
+        });
+        }
+        tampilkanKomentar();
+    </script>
+
 </body>
 
 </html>

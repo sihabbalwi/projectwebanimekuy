@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jun 2025 pada 11.53
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Jun 27, 2025 at 08:04 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_akun`
+-- Table structure for table `tb_akun`
 --
 
 CREATE TABLE `tb_akun` (
@@ -37,7 +37,7 @@ CREATE TABLE `tb_akun` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_anime`
+-- Table structure for table `tb_anime`
 --
 
 CREATE TABLE `tb_anime` (
@@ -50,7 +50,7 @@ CREATE TABLE `tb_anime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_anime`
+-- Dumping data for table `tb_anime`
 --
 
 INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `genre`) VALUES
@@ -66,7 +66,7 @@ INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `ge
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_episode`
+-- Table structure for table `tb_episode`
 --
 
 CREATE TABLE `tb_episode` (
@@ -79,7 +79,7 @@ CREATE TABLE `tb_episode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_episode`
+-- Dumping data for table `tb_episode`
 --
 
 INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video`, `episode`) VALUES
@@ -138,7 +138,7 @@ INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_genre`
+-- Table structure for table `tb_genre`
 --
 
 CREATE TABLE `tb_genre` (
@@ -146,7 +146,7 @@ CREATE TABLE `tb_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_genre`
+-- Dumping data for table `tb_genre`
 --
 
 INSERT INTO `tb_genre` (`genre`) VALUES
@@ -181,58 +181,58 @@ INSERT INTO `tb_genre` (`genre`) VALUES
 --
 
 --
--- Indeks untuk tabel `tb_akun`
+-- Indexes for table `tb_akun`
 --
 ALTER TABLE `tb_akun`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indeks untuk tabel `tb_anime`
+-- Indexes for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   ADD PRIMARY KEY (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_episode`
+-- Indexes for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD PRIMARY KEY (`id_episode`),
   ADD KEY `remove_on_delete` (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_genre`
+-- Indexes for table `tb_genre`
 --
 ALTER TABLE `tb_genre`
   ADD UNIQUE KEY `genre` (`genre`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_akun`
+-- AUTO_INCREMENT for table `tb_akun`
 --
 ALTER TABLE `tb_akun`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_anime`
+-- AUTO_INCREMENT for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   MODIFY `id_anime` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_episode`
+-- AUTO_INCREMENT for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   MODIFY `id_episode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_episode`
+-- Constraints for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD CONSTRAINT `remove_on_delete` FOREIGN KEY (`id_anime`) REFERENCES `tb_anime` (`id_anime`) ON DELETE CASCADE;
