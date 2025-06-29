@@ -156,31 +156,47 @@
         tampilkanKomentar();
 
         function likeKomentar(id) {
-        if (!userEmail) return alert("Harus login untuk menyukai");
-        db.collection("komentar").doc(id).get().then(doc => {
-            const d = doc.data();
-            const likes = d.likes || [], dislikes = d.dislikes || [];
-            if (!likes.includes(userEmail)) {
-            db.collection("komentar").doc(id).update({
-                likes: firebase.firestore.FieldValue.arrayUnion(userEmail),
-                dislikes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+            if (!userEmail) return alert("Harus login untuk menyukai");
+            db.collection("komentar").doc(id).get().then(doc => {
+                const d = doc.data();
+                const likes = d.likes || [];
+                const dislikes = d.dislikes || [];
+
+                if (likes.includes(userEmail)) {
+                    // Sudah like → batal like
+                    db.collection("komentar").doc(id).update({
+                        likes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+                    });
+                } else {
+                    // Tambah like, dan jika ada dislike hapus dislike
+                    db.collection("komentar").doc(id).update({
+                        likes: firebase.firestore.FieldValue.arrayUnion(userEmail),
+                        dislikes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+                    });
+                }
             });
-            }
-        });
         }
 
         function dislikeKomentar(id) {
-        if (!userEmail) return alert("Harus login untuk tidak menyukai");
-        db.collection("komentar").doc(id).get().then(doc => {
-            const d = doc.data();
-            const dislikes = d.dislikes || [], likes = d.likes || [];
-            if (!dislikes.includes(userEmail)) {
-            db.collection("komentar").doc(id).update({
-                dislikes: firebase.firestore.FieldValue.arrayUnion(userEmail),
-                likes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+            if (!userEmail) return alert("Harus login untuk tidak menyukai");
+            db.collection("komentar").doc(id).get().then(doc => {
+                const d = doc.data();
+                const dislikes = d.dislikes || [];
+                const likes = d.likes || [];
+
+                if (dislikes.includes(userEmail)) {
+                    // Sudah dislike → batal dislike
+                    db.collection("komentar").doc(id).update({
+                        dislikes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+                    });
+                } else {
+                    // Tambah dislike, dan jika ada like hapus like
+                    db.collection("komentar").doc(id).update({
+                        dislikes: firebase.firestore.FieldValue.arrayUnion(userEmail),
+                        likes: firebase.firestore.FieldValue.arrayRemove(userEmail)
+                    });
+                }
             });
-            }
-        });
         }
 
         function toggleBalasan(id) {

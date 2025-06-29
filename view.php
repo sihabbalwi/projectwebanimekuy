@@ -50,38 +50,49 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
     <div class="container pulse animated">
         <div class="row gy-3">
             <div class="col-lg-12 text-center align-self-center">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
-                            <div class="d-flex align-items-center">
+                <div class="card border">
+                    <div class="card-body position-relative">
+                        <div class="d-flex justify-content-between align-items-center position-relative" style="min-height: 60px;">
+                            <div>
                                 <button id="likeButton" class="btn btn-outline-primary d-flex align-items-center" style="gap: 5px;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#0d6efd">
                                         <path d="M2 21h4V9H2v12zM23 10c0-1.1-.9-2-2-2h-5.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L15.17 2 8.59 8.59C8.22 8.95 8 9.45 8 10v10c0 1.1.9 2 2 2h7c.82 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.0z"/>
                                     </svg>
-                                <span id="likeCount">0</span>
+                                    <span id="likeCount">0</span>
                                 </button>
-                                </div>
-                                    <div class="d-flex gap-2">
-                                    <button id="button_prev" class="btn btn-primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
-                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                            </div>
+
+                            <div class="position-absolute start-50 translate-middle-x">
+                                <div class="d-flex gap-2">
+                                    <button id="button_prev" class="btn btn-primary" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
                                             <path d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z"></path>
-                                        </svg></button><button id="button_deskripsi" class="btn btn-primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
-                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                                        </svg>
+                                    </button>
+
+                                    <button id="button_deskripsi" class="btn btn-primary" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
                                             <path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"></path>
-                                        </svg></button><button id="button_next" class="btn btn-primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
-                                            <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                                        </svg>
+                                    </button>
+
+                                    <button id="button_next" class="btn btn-primary" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" class="fs-5">
                                             <path d="M334.5 414c8.8 3.8 19 2 26-4.6l144-136c4.8-4.5 7.5-10.8 7.5-17.4s-2.7-12.9-7.5-17.4l-144-136c-7-6.6-17.2-8.4-26-4.6s-14.5 12.5-14.5 22l0 72L32 192c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l288 0 0 72c0 9.6 5.7 18.2 14.5 22z"></path>
-                                        </svg></button>
-                                    </div>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                            <div style="width: 44px;"></div>
                         </div>
                     </div>
+                </div>
+            </div>
             <div id="detail_anime" class="col-lg-8">
                 <section class="text-white" style="padding: 0px;padding-top: 0px;">
                 </section>
             </div>
             <div class="row">
-
             <!-- Komentar -->
             <!-- Firebase SDK -->
             <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
