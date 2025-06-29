@@ -15,7 +15,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
       <span>Animekuy</span>
     </a>
 
-    <!-- Hamburger -->
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-5">
       <span class="navbar-toggler-icon"></span>
     </button>

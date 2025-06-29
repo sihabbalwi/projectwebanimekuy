@@ -9,7 +9,15 @@ $client->setClientSecret('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');
 $client->setRedirectUri('http://localhost/Login/google_callback.php');
 $client->addScope(['email', 'profile']);
 
-if (!isset($_GET['code'])) exit('No code');
+if (isset($_GET['error'])) {
+    header('Location: /Login/Login.php?msg=cancelled');
+    exit;
+}
+
+if (!isset($_GET['code'])) {
+    header('Location: /Login/Login.php?msg=no_code');
+    exit;
+}
 
 $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 $client->setAccessToken($token);

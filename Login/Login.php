@@ -183,22 +183,21 @@ include('config.php');
     <div class="overlay"></div>
 
     <!-- Header Animekuy -->
-    <div class="animekuy-header d-flex align-items-center px-4 py-2" href="/">
+    <div class="animekuy-header d-flex align-items-center px-4 py-2"><a href="/index.php">
        <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
              viewBox="0 0 16 16" class="bi bi-brilliance">
           <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7"/>
-        </svg>
+        </svg><span class="px-2"> Animekuy</span>
       </span>
-      <span>Animekuy</span>
     </a>
     </div>
 
     <div class="login-box">
-        <h3 class="mb-4">Masuk</h3>
+        <h3 class="mb-4">Login</h3>
         <form>
             <div class="mb-3">
-                <input type="text" class="form-control" name="username" placeholder="Email atau nomor telepon"
+                <input type="text" class="form-control" name="username" placeholder="Email"
                     required />
             </div>
             <div class="mb-3">
@@ -222,7 +221,7 @@ include('config.php');
                     <input type="checkbox" class="form-check-input" id="rememberMe" />
                     <label class="form-check-label" for="rememberMe">Ingat saya</label>
                 </div>
-                <a href="Forget_pass.html">Lupa sandi?</a>
+                <a href="Forget_pass.php">Lupa sandi?</a>
             </div>
             <div class="login-footer mt-3">
                 <p>Baru di sini? <a href="register.php">Daftar sekarang.</a></p>
