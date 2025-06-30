@@ -15,7 +15,7 @@ include('config.php');
 
     <style>
         body {
-            background: url('https://w.wallhaven.cc/full/0w/wallhaven-0w2de6.jpg') no-repeat center center fixed;
+            background: url('/assets/img/Bg.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
             color: #fff;
@@ -24,7 +24,7 @@ include('config.php');
         }
 
         .overlay {
-            background-color: rgba(19, 19, 19, 0.7);
+            background-color: rgba(5, 5, 5, 0.87);
             position: fixed;
             top: 0;
             left: 0;
@@ -53,21 +53,20 @@ include('config.php');
         .form-control::placeholder {
             color: #e0e0e0;
         }
-
         .form-control:focus {
             background-color: #444;
             color: #fff;
-            border-color: #e50914;
+            border-color:rgb(33, 59, 227);
             box-shadow: none;
         }
 
         .btn-login {
-            background-color: #e50914;
+            background-color:rgb(33, 59, 227);
             border: none;
         }
 
         .btn-login:hover {
-            background-color: #f40612;
+            background-color:rgb(23, 4, 167); 
         }
 
         .btn-google {
@@ -100,30 +99,6 @@ include('config.php');
             color: #b3b3b3;
         }
 
-        .footer {
-            position: relative;
-            z-index: 1;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #757575;
-            padding: 40px;
-            font-size: 14px;
-            margin-top: 100px;
-        }
-
-        .footer a {
-            color: #757575;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .lang-select {
-            background-color: #000;
-            color: #fff;
-            border: 1px solid #333;
-            margin-top: 20px;
-            padding: 8px;
-            border-radius: 4px;
-        }
 
         .or-divider {
             text-align: center;
@@ -242,33 +217,6 @@ include('config.php');
                 </div>
             </div>
         </form>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer text-center text-md-start">
-        <div class="container">
-            <p class="mb-3">Ada pertanyaan? Hubungi 007-803-321-8275 (Bebas Pulsa)</p>
-            <div class="row">
-                <div class="col-6 col-md-3">
-                    <a href="#">Tanya Jawab</a>
-                    <a href="#">Preferensi Cookie</a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="#">Pusat Bantuan</a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="#">Ketentuan Penggunaan</a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="#">Privasi</a>
-                    <a href="#">Informasi Perusahaan</a>
-                </div>
-            </div>
-            <select class="lang-select mt-3">
-                <option selected>🌐 Bahasa Indonesia</option>
-                <option>English</option>
-            </select>
-        </div>
     </div>
 
     <script>

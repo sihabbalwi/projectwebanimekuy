@@ -37,6 +37,11 @@ function generateAvatarColor($name) {
     <div class="collapse navbar-collapse" id="navcol-5">
       <ul class="navbar-nav ms-auto align-items-center">
         <!-- MENU UTAMA -->
+        <li class="nav-item ms-2 px-2">
+          <a class="nav-link d-flex align-items-center text-light px-3 py-2 rounded hover-shadow" href="/anime_list.php" style="gap: 6px;">
+            <span>Anime List</span>
+          </a>
+        </li>
         <li class="nav-item d-flex align-items-center">
           <input id="search_anime" type="search" class="form-control form-control-sm me-2" placeholder="Search">
           <a onclick="search_anime()" class="btn btn-sm btn-primary" href="#">
@@ -84,7 +89,7 @@ function generateAvatarColor($name) {
   </div>
 </nav>
 
-<!-- Avatar CSS -->
+<!--  CSS -->
 <style>
   .avatar-circle {
     width: 36px;
@@ -102,6 +107,13 @@ function generateAvatarColor($name) {
   .avatar-circle .initial {
     line-height: 1;
   }
+
+.hover-shadow:hover {
+  background-color: #0d6efd; /* Bootstrap btn-primary */
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
 </style>
 
 <!-- Search Enter Handler -->

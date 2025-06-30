@@ -10,7 +10,7 @@
 
     <style>
         body {
-            background: url('https://w.wallhaven.cc/full/0w/wallhaven-0w2de6.jpg') no-repeat center center fixed;
+            background: url('/assets/img/Bg.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
             color: #fff;
@@ -19,7 +19,7 @@
         }
 
         .overlay {
-            background-color: rgba(19, 19, 19, 0.7);
+            background-color: rgba(5, 5, 5, 0.87);
             position: fixed;
             top: 0;
             left: 0;
@@ -52,17 +52,17 @@
         .form-control:focus {
             background-color: #444;
             color: #fff;
-            border-color: #e50914;
+            border-color:rgb(33, 59, 227);
             box-shadow: none;
         }
 
         .btn-submit {
-            background-color: #e50914;
+            background-color:rgb(33, 59, 227);
             border: none;
         }
 
         .btn-submit:hover {
-            background-color: #f40612;
+            background-color:rgb(23, 4, 167); 
         }
 
         a {
