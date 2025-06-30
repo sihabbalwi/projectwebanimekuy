@@ -4,9 +4,9 @@ $user = "root";
 $password = "";
 $db = "db_anime";
 
-$koneksi = mysqli_connect($host, $user, $password, $db);
+$conn = mysqli_connect($host, $user, $password, $db);
 
-if (!$koneksi) {
+if (!$conn) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 ?>

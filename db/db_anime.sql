@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2025 at 08:04 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Waktu pembuatan: 30 Jun 2025 pada 09.27
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,20 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_akun`
---
-
-CREATE TABLE `tb_akun` (
-  `user_id` int(11) NOT NULL,
-  `user_name` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL,
-  `user_password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_anime`
+-- Struktur dari tabel `tb_anime`
 --
 
 CREATE TABLE `tb_anime` (
@@ -50,7 +37,7 @@ CREATE TABLE `tb_anime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_anime`
+-- Dumping data untuk tabel `tb_anime`
 --
 
 INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `genre`) VALUES
@@ -66,7 +53,7 @@ INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `ge
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_episode`
+-- Struktur dari tabel `tb_episode`
 --
 
 CREATE TABLE `tb_episode` (
@@ -79,7 +66,7 @@ CREATE TABLE `tb_episode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_episode`
+-- Dumping data untuk tabel `tb_episode`
 --
 
 INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video`, `episode`) VALUES
@@ -138,7 +125,7 @@ INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_genre`
+-- Struktur dari tabel `tb_genre`
 --
 
 CREATE TABLE `tb_genre` (
@@ -146,7 +133,7 @@ CREATE TABLE `tb_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_genre`
+-- Dumping data untuk tabel `tb_genre`
 --
 
 INSERT INTO `tb_genre` (`genre`) VALUES
@@ -176,63 +163,88 @@ INSERT INTO `tb_genre` (`genre`) VALUES
 ('slice of life'),
 ('sports');
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_users`
+--
+
+CREATE TABLE `tb_users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `login_type` enum('manual','google') DEFAULT 'manual'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_users`
+--
+
+INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type`) VALUES
+(2, 'Ari', 'ari.nugroho552004@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJdfDofoQFYsuG-X1KcSb4IN1uZg6p_D8tqJVkULZG0lvOdng=s96-c', 'google'),
+(4, 'Arthur', 'reviel.ok1998@gmail.com', '$2y$10$wybRzy1KltH5PCMWf4B6UOVtI4RsnEAg0lpEQ7waNYdevbEQSYlZ.', NULL, 'manual'),
+(5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google');
+
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tb_akun`
---
-ALTER TABLE `tb_akun`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `tb_anime`
+-- Indeks untuk tabel `tb_anime`
 --
 ALTER TABLE `tb_anime`
   ADD PRIMARY KEY (`id_anime`);
 
 --
--- Indexes for table `tb_episode`
+-- Indeks untuk tabel `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD PRIMARY KEY (`id_episode`),
   ADD KEY `remove_on_delete` (`id_anime`);
 
 --
--- Indexes for table `tb_genre`
+-- Indeks untuk tabel `tb_genre`
 --
 ALTER TABLE `tb_genre`
   ADD UNIQUE KEY `genre` (`genre`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Indeks untuk tabel `tb_users`
+--
+ALTER TABLE `tb_users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `tb_akun`
---
-ALTER TABLE `tb_akun`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tb_anime`
+-- AUTO_INCREMENT untuk tabel `tb_anime`
 --
 ALTER TABLE `tb_anime`
   MODIFY `id_anime` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `tb_episode`
+-- AUTO_INCREMENT untuk tabel `tb_episode`
 --
 ALTER TABLE `tb_episode`
   MODIFY `id_episode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT untuk tabel `tb_users`
+--
+ALTER TABLE `tb_users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `tb_episode`
+-- Ketidakleluasaan untuk tabel `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD CONSTRAINT `remove_on_delete` FOREIGN KEY (`id_anime`) REFERENCES `tb_anime` (`id_anime`) ON DELETE CASCADE;

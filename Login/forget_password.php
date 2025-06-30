@@ -80,18 +80,27 @@
     <div class="overlay"></div>
     <div class="form-box">
         <h3 class="mb-4">Lupa Kata Sandi</h3>
-        <p class="mb-3">Masukkan email Anda untuk mereset kata sandi.</p>
-        <form>
+        <p class="mb-3">Masukkan email dan password baru Anda untuk mereset kata sandi.</p>
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
+            <?php elseif (isset($_GET['success'])): ?>
+            <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
+        <?php endif; ?>
+        <form action="forget_password_proses.php" method="POST">
             <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email" required />
+                <input type="email" name="email" class="form-control" placeholder="Email" required />
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password baru" required />
             </div>
             <div class="mb-3 d-grid">
-                <button type="submit" class="btn btn-submit text-white">Kirim Tautan Reset</button>
+                <button type="submit" class="btn btn-submit text-white">Reset Password</button>
             </div>
             <div class="mt-3">
-                <a href="login.php">Kembali ke halaman login</a>
+                <a href="Login.php">Kembali ke login</a>
             </div>
         </form>
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"

@@ -1,5 +1,20 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
+
+function generateAvatarColor($name) {
+    $colors = [
+        '#dc3545', // merah
+        '#0d6efd', // biru
+        '#6f42c1', // ungu
+        '#20c997', // teal
+        '#fd7e14', // oranye
+        '#198754', // hijau
+        '#6610f2', // indigo
+    ];
+
+    $index = ord(strtoupper($name[0])) % count($colors);
+    return $colors[$index];
+}
 ?>
 
 <nav class="navbar navbar-expand-md sticky-top bg-dark py-3" data-bs-theme="dark">
@@ -22,8 +37,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <div class="collapse navbar-collapse" id="navcol-5">
       <ul class="navbar-nav ms-auto align-items-center">
         <!-- MENU UTAMA -->
-        <li class="nav-item"><a class="nav-link active" href="#">OnGoing</a></li>
-        <li class="nav-item"><a class="nav-link text-capitalize" href="#">Genre</a></li>
         <li class="nav-item d-flex align-items-center">
           <input id="search_anime" type="search" class="form-control form-control-sm me-2" placeholder="Search">
           <a onclick="search_anime()" class="btn btn-sm btn-primary" href="#">
@@ -35,13 +48,23 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         </li>
 
         <!-- LOGIN / AVATAR + NAMA -->
-        <?php if (!empty($_SESSION['user']) && !empty($_SESSION['avatar'])): ?>
-          <!-- Setelah login -->
+        <?php if (!empty($_SESSION['user'])): ?>
           <li class="nav-item ms-3 d-flex align-items-center">
-            <img src="<?= htmlspecialchars($_SESSION['avatar']) ?>"
-                 alt="Avatar" class="rounded-circle me-2"
-                 width="36" height="36" style="object-fit:cover;"
-                 onerror="this.src=''">
+            <?php if (!empty($_SESSION['avatar'])): ?>
+              <img src="<?= htmlspecialchars($_SESSION['avatar']) ?>"
+                   alt="Avatar" class="rounded-circle me-2"
+                   width="36" height="36" style="object-fit:cover;"
+                   onerror="this.src='/assets/img/seele.jpeg'">
+            <?php else: ?>
+              <?php
+                $initial = strtoupper(substr($_SESSION['user'], 0, 1));
+                $avatarColor = generateAvatarColor($_SESSION['user']);
+              ?>
+              <div class="avatar-circle me-2" style="background-color: <?= $avatarColor ?>;">
+                <span class="initial"><?= $initial ?></span>
+              </div>
+            <?php endif; ?>
+
             <span class="text-white me-2 d-none d-md-inline"><?= htmlspecialchars($_SESSION['user']) ?></span>
           </li>
           <li class="nav-item">
@@ -60,3 +83,44 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     </div>
   </div>
 </nav>
+
+<!-- Avatar CSS -->
+<style>
+  .avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+
+  .avatar-circle .initial {
+    line-height: 1;
+  }
+</style>
+
+<!-- Search Enter Handler -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("search_anime");
+
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        search_anime(); 
+      }
+    });
+  });
+
+  function search_anime() {
+    const keyword = document.getElementById("search_anime").value.trim();
+    if (keyword !== "") {
+      window.location.href = `?search=${encodeURIComponent(keyword)}`;
+    }
+  }
+</script>

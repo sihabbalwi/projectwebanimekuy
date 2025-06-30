@@ -1,6 +1,18 @@
 <?php
 session_start();
 $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
+function generateAvatarSVG($name) {
+    $initial = strtoupper(substr($name, 0, 1));
+    $colors = ['#dc3545', '#0d6efd', '#6f42c1', '#20c997', '#fd7e14', '#198754', '#6610f2'];
+    $color = $colors[ord($initial) % count($colors)];
+
+    $svg = '<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="50" fill="' . $color . '" />
+        <text x="50%" y="54%" text-anchor="middle" font-size="50" fill="#ffffff" font-family="Arial" dy=".3em">' . $initial . '</text>
+    </svg>';
+
+    return 'data:image/svg+xml;base64,' . base64_encode($svg);
+}
 ?>
 
 
@@ -105,7 +117,7 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
                 <div class="card-body">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="mb-3 d-flex align-items-center gap-2">
-                    <img src="<?= $_SESSION['avatar'] ?>" alt="Avatar" class="rounded-circle" width="40" height="40">
+                    <img src="<?= !empty($_SESSION['avatar']) ? $_SESSION['avatar'] : generateAvatarSVG($_SESSION['user']) ?>" alt="Avatar" class="rounded-circle" width="40" height="40">
                     <b><?= $_SESSION['user'] ?></b>
                     </div>
                     <form onsubmit="kirimKomentar(event)">
@@ -186,7 +198,11 @@ $episode = isset($_GET['episode']) ? intval($_GET['episode']) : 0;
         const idAnime = parseInt(<?= json_encode($_GET['anime'] ?? 0) ?>);
         const episodeID = parseInt(<?= json_encode($_GET['episode'] ?? 0) ?>);
         const namaUser = <?= json_encode($_SESSION['user'] ?? null) ?>;
-        const avatarUser = <?= json_encode($_SESSION['avatar'] ?? null) ?>;
+        const avatarUser = <?= json_encode(
+            !empty($_SESSION['avatar']) 
+                ? $_SESSION['avatar'] 
+                : (isset($_SESSION['user']) ? generateAvatarSVG($_SESSION['user']) : null)
+        ) ?>;
         const userEmail = <?= json_encode($_SESSION['email'] ?? null) ?>;
     </script>
     <script src="assets/js/Komentar.js"></script>

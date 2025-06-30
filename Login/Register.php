@@ -1,3 +1,8 @@
+<?php
+include('config.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,6 +100,16 @@
 
         a:hover {
             text-decoration: underline;
+        }        
+        .btn-google {
+            background-color: #fff;
+            color: #000;
+            font-weight: 500;
+            border: 1px solid #ccc;
+        }
+
+        .btn-google:hover {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
@@ -103,31 +118,32 @@
     <div class="overlay"></div>
     <div class="form-box">
         <h3 class="mb-4">Daftar Sekarang</h3>
-        <form>
+        <form action="register_proses.php" method="POST">
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Nama Lengkap" required />
+                <input type="text" name="name" class="form-control" placeholder="Nama Lengkap" required />
             </div>
             <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email" required />
+                <input type="email" name="email" class="form-control" placeholder="Email" required />
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" placeholder="Kata Sandi" required />
+                <input type="password" name="password" class="form-control" placeholder="Kata Sandi" required />
             </div>
             <div class="mb-3 d-grid">
                 <button type="submit" class="btn btn-submit text-white">Daftar</button>
             </div>
-            <div class="or-divider">atau</div>
+        </form>
 
-            
+            <div class="or-divider">atau</div>
+        <form>
             <div class="mb-3 d-grid">
-               <button type="button" class="btn" style="background-color: white; color: #444; border: 1px solid #ccc;">
-                  <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="me-2">
-                  Masuk dengan Google
-               </button>
+                <button type="button" class="btn btn-google">
+                    <a href="<?= $url ?>"><img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="me-2">
+                    Masuk dengan Google
+                </button>
             </div>
 
             <div class="mt-3">
-                <p>Sudah punya akun? <a href="Login.php">Masuk di sini</a></p>
+                <p><a href="Login.php">Sudah punya akun?  Masuk di sini</a></p>
             </div>
         </form>
 

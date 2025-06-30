@@ -195,20 +195,25 @@ include('config.php');
 
     <div class="login-box">
         <h3 class="mb-4">Login</h3>
-        <form>
+            <?php if (isset($_GET['error'])): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($_GET['error']) ?>
+                </div>
+            <?php endif; ?>
+        <form action="login_proses.php" method="POST">
             <div class="mb-3">
-                <input type="text" class="form-control" name="username" placeholder="Email"
-                    required />
+                <input type="email" name="email" class="form-control" placeholder="Email" required />
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" name="password" placeholder="Kata sandi" required />
+                <input type="password" name="password" class="form-control" placeholder="Kata sandi" required />
             </div>
             <div class="mb-3 d-grid">
                 <button type="submit" class="btn btn-login text-white">Masuk</button>
             </div>
+        </form>
 
             <div class="or-divider">atau</div>
-
+        <form>
             <div class="mb-3 d-grid">
                 <button type="button" class="btn btn-google">
                     <a href="<?= $url ?>"><img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="me-2">
@@ -221,7 +226,7 @@ include('config.php');
                     <input type="checkbox" class="form-check-input" id="rememberMe" />
                     <label class="form-check-label" for="rememberMe">Ingat saya</label>
                 </div>
-                <a href="Forget_pass.php">Lupa sandi?</a>
+                <a href="forget_password.php">Lupa sandi?</a>
             </div>
             <div class="login-footer mt-3">
                 <p>Baru di sini? <a href="register.php">Daftar sekarang.</a></p>
