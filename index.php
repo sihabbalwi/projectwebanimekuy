@@ -45,10 +45,14 @@
                             </div>
                         </div>
                     </div>
-                    
-                   
                 </div>
             </div>
+            <!-- Navigasi Halaman -->
+                <nav class="mt-4">
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Akan diisi otomatis pakai JS -->
+                </ul>
+                </nav>
             <div class="col">
                 <div class="card">
                     <div class="card-body" style="margin-bottom: 9px;">
@@ -86,38 +90,74 @@
     <script src="assets/js/script.js"></script>
 
     <script>
-        $.get("/api/list.php",function(result){
-            var html_data = "";
-            result.forEach((anime) => {
+    let currentPage = 1;
+    let totalPages = 1;
+
+    function loadAnime(page=1) {
+        $.get(`/api/list.php?page=${page}`, function(data){
+            let html_data = "";
+            data.result.forEach((anime) => {
                 html_data += `<div class="col-6 col-md-4" data-aos="zoom-in">
-                        <div onclick="window.location = '/detail.php?anime=${anime.detail_anime.id_anime}'" class="card" data-bss-hover-animate="pulse"><img class="card-img-top w-100 d-block fit-cover" style="height: 130px;" src="${anime.detail_anime.image}">
-                            <div class="card-body p-4">
-                                <p class="text-nowrap text-truncate text-primary-emphasis card-text mb-0">Episode ${anime.episode}</p>
-                                <h4 class="text-nowrap text-truncate fs-6 card-title">${anime.detail_anime.judul}</h4>
-                                <p class="card-text"></p>
-                                <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://png.pngtree.com/png-clipart/20230409/original/pngtree-admin-and-customer-service-job-vacancies-png-image_9041264.png">
-                                    <div>
-                                        <p class="text-nowrap text-truncate fw-bold mb-0">${anime.publisher}</p>
-                                        <p class="text-muted mb-0">${anime.waktu}</p>
-                                    </div>
+                    <div onclick="window.location = '/detail.php?anime=${anime.detail_anime.id_anime}'" class="card" data-bss-hover-animate="pulse">
+                        <img class="card-img-top w-100 d-block fit-cover" style="height: 130px;" src="${anime.detail_anime.image}">
+                        <div class="card-body p-4">
+                            <p class="text-nowrap text-truncate text-primary-emphasis card-text mb-0">Episode ${anime.episode}</p>
+                            <h4 class="text-nowrap text-truncate fs-6 card-title">${anime.detail_anime.judul}</h4>
+                            <div class="d-flex">
+                                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://png.pngtree.com/png-clipart/20230409/original/pngtree-admin-and-customer-service-job-vacancies-png-image_9041264.png">
+                                <div>
+                                    <p class="text-nowrap text-truncate fw-bold mb-0">${anime.publisher}</p>
+                                    <p class="text-muted mb-0">${anime.waktu}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>`
+                    </div>
+                </div>`;
             });
-            
             $("#list_anime").html(html_data);
-        })
 
+            currentPage = data.currentPage;
+            totalPages = data.totalPages;
 
-        $.get("/api/list_genre.php",function(result){
-            var html_data = "";
-            result.result.forEach((anime) => {
-                html_data +=`<a class="card-link" href="/genre.php?genre=${anime.genre}">${anime.genre}</a>`;
-            });
-            
-            $("#list_genre").html(html_data);
-        })
+            renderPagination();
+        });
+    }
+
+    function renderPagination() {
+        let paginationHTML = '';
+
+        if (currentPage > 1) {
+            paginationHTML += `<li class="page-item">
+                <a class="page-link" href="#" onclick="loadAnime(${currentPage - 1}); return false;">Sebelumnya</a>
+            </li>`;
+        }
+
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="loadAnime(${i}); return false;">${i}</a>
+            </li>`;
+        }
+
+        if (currentPage < totalPages) {
+            paginationHTML += `<li class="page-item">
+                <a class="page-link" href="#" onclick="loadAnime(${currentPage + 1}); return false;">Berikutnya</a>
+            </li>`;
+        }
+
+        $("#pagination").html(paginationHTML);
+    }
+
+    $(document).ready(function(){
+        loadAnime();
+    });
+            $.get("/api/list_genre.php",function(result){
+                var html_data = "";
+                result.result.forEach((anime) => {
+                    html_data +=`<a class="card-link" href="/genre.php?genre=${anime.genre}">${anime.genre}</a>`;
+                });
+                
+                $("#list_genre").html(html_data);
+            })
     </script>
 </body>
 
