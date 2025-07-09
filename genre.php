@@ -20,15 +20,22 @@
     <link rel="stylesheet" href="assets/css/Articles-Cards-images.css">
     <link rel="stylesheet" href="assets/css/Navbar-Right-Links-Dark-icons.css">
 </head>
+<style>
+    body {
+        background-color: #121212;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
 
 <body>
-   <?php include 'componen/navbar.php'; ?>
+    <?php include 'componen/navbar.php'; ?>
     <div class="container">
         <div class="row gy-3" style="margin-top: 20px;">
             <div class="col-md-8 flash animated">
                 <div id="list_anime" class="row gx-1 gy-1 row-cols-1 row-cols-md-2 row-cols-xl-3">
 
-                          
+
                 </div>
             </div>
             <div class="col">
@@ -68,20 +75,20 @@
 
     <script>
         <?php
-        if (isset($_GET['genre'])){
+        if (isset($_GET['genre'])) {
             $genre = $_GET['genre'];
             echo "var genre_test = '$genre'";
         }
         ?>
-        
-        $.get("/api/search_genre.php",{
-            genre:genre_test
-        },function(result){
+
+        $.get("/api/search_genre.php", {
+            genre: genre_test
+        }, function(result) {
             //console.log(result);
 
-            if (result.status){
+            if (result.status) {
                 var data_html = "";
-                result.result.forEach((data)=>{
+                result.result.forEach((data) => {
                     console.log(data);
                     data_html += `<div class="col-6 col-md-4 aos-init aos-animate" data-aos="zoom-in">
                           <div onclick="window.location = '/detail.php?anime=${data.id_anime}'" class="card" data-bss-hover-animate="pulse"><img class="card-img-top w-100 d-block fit-cover" style="height: 130px;" src="${data.image}">
@@ -95,23 +102,21 @@
                     </div>`;
 
                     $("#list_anime").html(data_html);
-                    
+
                 })
-            }else{
+            } else {
                 $("#list_anime").html("<h1>Page anime/video tidak ditemukan</h1>");
             }
         })
 
-        $.get("/api/list_genre.php",function(result){
+        $.get("/api/list_genre.php", function(result) {
             var html_data = "";
             result.result.forEach((anime) => {
-                html_data +=`<a class="card-link" href="/genre.php?genre=${anime.genre}">${anime.genre}</a>`;
+                html_data += `<a class="card-link" href="/genre.php?genre=${anime.genre}">${anime.genre}</a>`;
             });
-            
+
             $("#list_genre").html(html_data);
         })
-
-      
     </script>
 </body>
 

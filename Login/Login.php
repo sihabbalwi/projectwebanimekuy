@@ -53,20 +53,21 @@ include('config.php');
         .form-control::placeholder {
             color: #e0e0e0;
         }
+
         .form-control:focus {
             background-color: #444;
             color: #fff;
-            border-color:rgb(33, 59, 227);
+            border-color: rgb(33, 59, 227);
             box-shadow: none;
         }
 
         .btn-login {
-            background-color:rgb(33, 59, 227);
+            background-color: rgb(33, 59, 227);
             border: none;
         }
 
         .btn-login:hover {
-            background-color:rgb(23, 4, 167); 
+            background-color: rgb(23, 4, 167);
         }
 
         .btn-google {
@@ -159,22 +160,22 @@ include('config.php');
 
     <!-- Header Animekuy -->
     <div class="animekuy-header d-flex align-items-center px-4 py-2"><a href="/index.php">
-       <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
-             viewBox="0 0 16 16" class="bi bi-brilliance">
-          <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7"/>
-        </svg><span class="px-2"> Animekuy</span>
-      </span>
-    </a>
+            <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                    viewBox="0 0 16 16" class="bi bi-brilliance">
+                    <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7" />
+                </svg><span class="px-2"> Animekuy</span>
+            </span>
+        </a>
     </div>
 
     <div class="login-box">
         <h3 class="mb-4">Login</h3>
-            <?php if (isset($_GET['error'])): ?>
-                <div class="alert alert-danger">
-                    <?= htmlspecialchars($_GET['error']) ?>
-                </div>
-            <?php endif; ?>
+        <?php if (isset($_GET['error'])): ?>
+            <div class="alert alert-danger">
+                <?= htmlspecialchars($_GET['error']) ?>
+            </div>
+        <?php endif; ?>
         <form action="login_proses.php" method="POST">
             <div class="mb-3">
                 <input type="email" name="email" class="form-control" placeholder="Email" required />
@@ -187,12 +188,12 @@ include('config.php');
             </div>
         </form>
 
-            <div class="or-divider">atau</div>
+        <div class="or-divider">atau</div>
         <form>
             <div class="mb-3 d-grid">
                 <button type="button" class="btn btn-google">
                     <a href="<?= $url ?>"><img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="me-2">
-                    Masuk dengan Google
+                        Masuk dengan Google
                 </button>
             </div>
 
@@ -220,7 +221,7 @@ include('config.php');
     </div>
 
     <script>
-        document.getElementById('learnMoreLink').addEventListener('click', function (event) {
+        document.getElementById('learnMoreLink').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('learnMoreLink').style.display = 'none';
             document.getElementById('learnMoreText').style.display = 'block';

@@ -156,7 +156,7 @@
         tampilkanKomentar();
 
         function likeKomentar(id) {
-            if (!userEmail) return alert("Harus login untuk menyukai");
+            if (!userEmail) return alert("Harus login untuk Like");
             db.collection("komentar").doc(id).get().then(doc => {
                 const d = doc.data();
                 const likes = d.likes || [];
@@ -178,7 +178,7 @@
         }
 
         function dislikeKomentar(id) {
-            if (!userEmail) return alert("Harus login untuk tidak menyukai");
+            if (!userEmail) return alert("Harus login untuk Dislike");
             db.collection("komentar").doc(id).get().then(doc => {
                 const d = doc.data();
                 const dislikes = d.dislikes || [];
