@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Jul 2025 pada 14.04
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Jul 09, 2025 at 03:37 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_anime`
+-- Table structure for table `tb_anime`
 --
 
 CREATE TABLE `tb_anime` (
@@ -37,15 +37,13 @@ CREATE TABLE `tb_anime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_anime`
+-- Dumping data for table `tb_anime`
 --
 
 INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `genre`) VALUES
-(2, 'Video Meme', 'Meme random ', 'https://th.bing.com/th/id/OIP.EX4y_UA1jMehXj-JW9WQIgHaFi?rs=1&pid=ImgDetMain', 'Ongoing', 'meme|politik|drama|komedi|game|random|'),
-(3, 'Anime Page', 'Anime random ', 'https://th.bing.com/th/id/OIP.f0CkEgggNHBHc_P5UIjHagHaEK?rs=1&pid=ImgDetMain', 'Ongoing', 'isekai|adventure|fantasy|romance|demons|magic|action|komedi|'),
-(4, 'Dr Stone', 'Dr Stone', 'https://th.bing.com/th/id/OIP.uKphc6U5KlSytiBmrdAUhwHaLH?rs=1&pid=ImgDetMain', 'Completed', 'komedi|drama'),
-(5, 'Naruto', 'Naruto', 'https://th.bing.com/th/id/R.12c5319798636a7e627c98bf5af718d5?rik=kurhOq6o0YdA2g&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fvgK96jl.jpg&ehk=DrDF4MryI6%2fHrBefn2l%2bafIhq5CiPTfBAXuT7LU3B6o%3d&risl=&pid=ImgRaw&r=0', 'Complete', 'action|drama'),
-(7, 'Make Heroine ga Oosugiru!', 'Heroine yang tertolak', 'https://cdn.myanimelist.net/images/anime/1332/143513l.jpg', 'Completed', 'drama|romance|school|slice of life'),
+(4, 'Dr Stone', 'Dr Stone', 'https://th.bing.com/th/id/OIP.uKphc6U5KlSytiBmrdAUhwHaLH?rs=1&pid=ImgDetMain', 'Completed', 'adventure | komedi'),
+(5, 'Naruto', 'Naruto', 'https://th.bing.com/th/id/R.12c5319798636a7e627c98bf5af718d5?rik=kurhOq6o0YdA2g&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fvgK96jl.jpg&ehk=DrDF4MryI6%2fHrBefn2l%2bafIhq5CiPTfBAXuT7LU3B6o%3d&risl=&pid=ImgRaw&r=0', 'Ongoing', 'action | adventure | fantasy'),
+(7, 'Make Heroine ga Oosugiru!', 'Heroine yang tertolak', 'https://cdn.myanimelist.net/images/anime/1332/143513l.jpg', 'Completed', 'drama | romance | school | slice of life'),
 (8, 'Sakamoto Days (season 1)', 'Dulu, ada pembunuh bayaran paling ditakuti sekaligus dikagumi oleh banyak orang. Ia adalah Tarou Sakamoto. Suatu hari, Sakamoto yang sedang berbelanja di minimarket bertemu dengan gadis cantik yang tengah menjadi kasir bernama Aoi.\r\nSakamoto pun jatuh cinta pada pandangan pertama kepada Aoi. Karena pertemuannya tersebut, Sakamoto akhirnya memilih meninggalkan jalan sebagai pembunuh bayaran dan kini hidup bersama dengan Aoi sebagai pasangan suami istri hingga tubuhnya sekarang berubah menjadi gendut.\r\nWalau memiliki tubuh besar, kecepatan dan kelincahan Sakamoto masih tetap sama. Sekarang, Sakamoto harus menjalani kehidupannya sembari melindungi keluarganya dari musuh yang ingin membunuhnya.', 'https://screenscore.digitalmama.id/wp-content/uploads/2025/03/MV5BM2MwZDRmYWItNGIzZC00ZWExLWEwNWYtNmM1ZmU3OTA3NmY4XkEyXkFqcGc@._V1_.jpg', 'Completed', 'Action | Comedy | Organized Crime | Shounen'),
 (9, 'Solo Leveling (season 1)', 'Sepuluh tahun yang lalu, muncul sebuah Gate yang berisikan para monster. Senjata konvensional seperti pistol tidak bisa melukai monster tersebut. Namun, manusia berkekuatan super yang disebut dengan Hunter berhasil mengalahkan mereka.\r\nPara Hunter pun populer dan menjadi pekerjaan yang menjanjikan uang lebih banyak. Kisah berpusat kepada Shun Mizushino (Jin-Woo Sung) yang memiliki rank E atau Hunter paling lemah.\r\nSuatu hari, Shun yang tengah menjalani sebuah Dungeon bersama dengan teman-temannya terjebak di sebuah ruangan. Dalam posisi yang genting, ia mendapatkan sebuah pesan untuk menaikkan levelnya. Bagaimana kisah lengkapnya?', 'https://i.pinimg.com/736x/00/bf/a5/00bfa50817ba4107538d2f79da3e20c4.jpg', 'Completed', 'Action | Adventure | Fantasy'),
 (11, 'Spy x Family (Season 1)', 'Loid Forge atau Twilight, seorang mata-mata yang bekerja untuk organisasi rahasia. Loid dikenal sebagai salah satu mata-mata yang selalu berhasil menyelesaikan misinya. Suatu hari, Loid diberikan tugas oleh atasannya untuk membentuk sebuah keluarga palsu.\r\nTujuannya yakni guna mendekati Desmon Donovan, Pemimpin dari Partai Nasional. Untuk mewujudkan misi tersebut, Loid mengunjungi Panti Asuhan dan memilih mengadopsi seorang anak perempuan bernama Anya.\r\nSetelah mengadopsi seorang anak, Loid diharuskan mencari seorang istri. Untuk itu, Yor, salah satu wanita yang bekerja di pemerintahan bersedia membuat keluarga palsu dengan Loid. Sekarang, apakah misi dari Loid akan berhasil?', 'https://i0.wp.com/asiaon.com.br/wp-content/uploads/2022/04/gallery_visual_06.jpg?resize=650%2C939&ssl=1', 'Completed', 'Action | Comedy | Shounen'),
@@ -57,7 +55,26 @@ INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `ge
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_episode`
+-- Table structure for table `tb_banner`
+--
+
+CREATE TABLE `tb_banner` (
+  `id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_banner`
+--
+
+INSERT INTO `tb_banner` (`id`, `image`) VALUES
+(8, 'banner_1752064554.png'),
+(9, 'banner_1752065222.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_episode`
 --
 
 CREATE TABLE `tb_episode` (
@@ -70,11 +87,10 @@ CREATE TABLE `tb_episode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_episode`
+-- Dumping data for table `tb_episode`
 --
 
 INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video`, `episode`) VALUES
-(5, 3, 'unknown', '20.01', 'https://youtu.be/4K5sK4Pl53s?si=w7BsUa1sESeL49F7', 1),
 (11, 5, 'UDFFU', '08.03', 'https://drive.google.com/file/d/1dlD6cpqmSQAXFAlyJBLkfCS5qEIWeeXU/preview', 1),
 (12, 5, 'AFEF', '08.07', 'https://pixeldrain.com/u/UuANZMyB', 2),
 (13, 7, 'Wee', '21.42 WIB', 'https://drive.google.com/file/d/1gYHCWBhTv7qZiOX3NF_pTgK2tda6I_a4/preview', 1),
@@ -89,7 +105,6 @@ INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video
 (24, 7, 'Wee', '22.10 WIB', 'https://drive.google.com/file/d/1vdqu5IPG8PA9TUk6p3oVSYzkjvTBcYWg/preview', 10),
 (25, 7, 'Wee', '22.11 WIB', 'https://drive.google.com/file/d/1ZdTa0gV3eZhQUpsEFNlENyzi_RZlLwEo/preview', 11),
 (26, 7, 'Wee', '22.12 WIB', 'https://drive.google.com/file/d/1-gZT3nw3SI3_CnfvpRKgU3_o6nEQM4ot/preview', 12),
-(27, 2, 'Wee', '22.22 WIB', 'https://www.youtube.com/embed/7DFlyDYAt1c?si=B5iiBtFnOAw6RKmt', 1),
 (28, 8, 'TMS Entertainment', '3.50 PM', 'https://drive.google.com/file/d/1Vn4z57yBWtUhn-wuSMmkqcW6QC0YBv4f/preview', 1),
 (29, 9, 'A-1 Pictures', '3.52 PM', 'https://drive.google.com/file/d/1pqsN_l1zqeEbYLHYxOjIwSCsOcVtSSjl/preview', 1),
 (30, 11, 'TOHO animation', '3.53 PM', 'https://drive.google.com/file/d/1t5eCnKFqFPygvPH_SNl8_0UyjfBgCSHl/preview', 1),
@@ -135,7 +150,7 @@ INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_genre`
+-- Table structure for table `tb_genre`
 --
 
 CREATE TABLE `tb_genre` (
@@ -143,7 +158,7 @@ CREATE TABLE `tb_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_genre`
+-- Dumping data for table `tb_genre`
 --
 
 INSERT INTO `tb_genre` (`genre`) VALUES
@@ -176,7 +191,7 @@ INSERT INTO `tb_genre` (`genre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_users`
+-- Table structure for table `tb_users`
 --
 
 CREATE TABLE `tb_users` (
@@ -189,72 +204,85 @@ CREATE TABLE `tb_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_users`
+-- Dumping data for table `tb_users`
 --
 
 INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type`) VALUES
 (2, 'Ari', 'ari.nugroho552004@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJdfDofoQFYsuG-X1KcSb4IN1uZg6p_D8tqJVkULZG0lvOdng=s96-c', 'google'),
 (4, 'Arthur', 'reviel.ok1998@gmail.com', '$2y$10$wybRzy1KltH5PCMWf4B6UOVtI4RsnEAg0lpEQ7waNYdevbEQSYlZ.', NULL, 'manual'),
-(5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google');
+(5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google'),
+(7, 'Admin', 'admin@gmail.com', '$2y$10$mcMHaUbW89g0qchuqJ0f0.KTTbiRAtGYsOJv0cYL7wh4HEOw5EuCq', NULL, 'manual');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_anime`
+-- Indexes for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   ADD PRIMARY KEY (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_episode`
+-- Indexes for table `tb_banner`
+--
+ALTER TABLE `tb_banner`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD PRIMARY KEY (`id_episode`),
   ADD KEY `remove_on_delete` (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_genre`
+-- Indexes for table `tb_genre`
 --
 ALTER TABLE `tb_genre`
   ADD UNIQUE KEY `genre` (`genre`);
 
 --
--- Indeks untuk tabel `tb_users`
+-- Indexes for table `tb_users`
 --
 ALTER TABLE `tb_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_anime`
+-- AUTO_INCREMENT for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   MODIFY `id_anime` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_episode`
+-- AUTO_INCREMENT for table `tb_banner`
+--
+ALTER TABLE `tb_banner`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   MODIFY `id_episode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_users`
+-- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_episode`
+-- Constraints for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD CONSTRAINT `remove_on_delete` FOREIGN KEY (`id_anime`) REFERENCES `tb_anime` (`id_anime`) ON DELETE CASCADE;
