@@ -146,8 +146,8 @@ function generateAvatarSVG($name)
     <script src="assets/js/Komentar.js"></script>
 
     <script>
-        episodeID = parseInt(episodeID);
-        if (isNaN(episodeID)) episodeID = 0;
+        const numericEpisode = parseInt(episodeID);
+        if (isNaN(numericEpisode)) numericEpisode = 0;
 
         function watchEpisode(epNum) {
             let watched = JSON.parse(localStorage.getItem('watchedEpisodes') || '{}');
@@ -164,27 +164,28 @@ function generateAvatarSVG($name)
         }, function(result) {
             const totalEpisode = result.list_episode.length;
 
-            if (episodeID + 1 <= totalEpisode) {
+            if (numericEpisode + 1 <= totalEpisode) {
                 $("#button_next")
                     .prop("disabled", false)
                     .off("click")
                     .on("click", function() {
-                        watchEpisode(episodeID + 1);
+                        watchEpisode(numericEpisode + 1);
                     });
             } else {
                 $("#button_next").prop("disabled", true);
             }
 
-            if (episodeID > 1) {
+            if (numericEpisode > 1) {
                 $("#button_prev")
                     .prop("disabled", false)
                     .off("click")
                     .on("click", function() {
-                        watchEpisode(episodeID - 1);
+                        watchEpisode(numericEpisode - 1);
                     });
             } else {
                 $("#button_prev").prop("disabled", true);
             }
+
             $("#episode_label").text("Episode " + episodeID);
 
             let watched = JSON.parse(localStorage.getItem("watchedEpisodes") || "{}");
@@ -201,9 +202,32 @@ function generateAvatarSVG($name)
 
         $.get("/api/view.php", {
             anime: idAnime,
-            episode: episodeID
+            episode: numericEpisode
         }, function(result) {
             $("#video_player").attr("src", result.result.video);
+
+            const history = JSON.parse(localStorage.getItem("watchHistory") || "[]");
+
+            const exists = history.find(item => item.id_anime == result.result.id_anime);
+
+            if (exists) {
+                exists.episode = result.result.episode;
+                exists.image = result.result.image;
+                exists.judul = result.result.judul;
+                exists.updated = Date.now();
+            } else {
+                history.push({
+                    id_anime: result.result.id_anime,
+                    episode: result.result.episode,
+                    judul: result.result.judul,
+                    image: result.result.image,
+                    updated: Date.now()
+                });
+            }
+
+            history.sort((a, b) => b.updated - a.updated);
+
+            localStorage.setItem("watchHistory", JSON.stringify(history));
         });
 
         $("#button_deskripsi").attr("onclick", `window.location = './detail.php?anime=${idAnime}'`);

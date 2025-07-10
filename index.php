@@ -4,6 +4,7 @@ include 'koneksi/koneksi.php';
 include 'componen/navbar.php';
 
 $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
+$completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Completed' ORDER BY id_anime DESC");
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="en">
@@ -17,90 +18,8 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <style>
-        body {
-            background-color: #0d0d0d;
-            color: #f1f1f1;
-            font-family: 'Outfit', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        .banner-img {
-            height: 600px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        .carousel-inner {
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .fade-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            background: linear-gradient(to right, rgba(13, 13, 13, 1) 0%, rgba(13, 13, 13, 0) 20%, rgba(13, 13, 13, 0) 80%, rgba(13, 13, 13, 1) 100%);
-            pointer-events: none;
-        }
-
-        .card {
-            background: #1c1c1c;
-            border: none;
-            border-radius: 14px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(255, 255, 255, 0.15);
-        }
-
-        .card-title {
-            font-size: 0.95rem;
-        }
-
-        #list_genre a.card-link {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border-radius: 20px;
-            padding: 6px 14px;
-            margin: 5px;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: 0.3s ease-in-out;
-        }
-
-        #list_genre a.card-link:hover {
-            background: #0b5ed7;
-            color: #fff;
-        }
-
-        footer {
-            margin-top: 40px;
-            background: #1a1a1a;
-            padding-top: 40px;
-            border-top: 1px solid #2c2c2c;
-        }
-
-        footer p,
-        footer a {
-            color: #999;
-        }
-
-        footer a:hover {
-            color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
-
 <body>
     <div class="container my-4 position-relative">
         <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -167,6 +86,30 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
                         <div id="list_genre"></div>
                     </div>
                 </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">History</h5>
+                            <a href="history.php" class="text-decoration-none">View All</a>
+                        </div>
+                        <div class="row row-cols-2 g-3" id="history_section"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <h2>Completed Anime</h2>
+            <div class="completed-slider position-relative" data-aos="fade-up">
+                <button class="nav-btn left" id="completedPrev">&#10094;</button>
+                <div class="slider-container d-flex overflow-hidden" id="completedContainer">
+                    <?php while ($c = mysqli_fetch_assoc($completedQ)): ?>
+                        <div class="anime-card flex-shrink-0" onclick="window.location='detail.php?anime=<?= $c['id_anime'] ?>'">
+                            <img src="<?= htmlspecialchars($c['image']) ?>" alt="<?= htmlspecialchars($c['judul']) ?>">
+                            <div class="card-caption"><?= htmlspecialchars($c['judul']) ?></div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                <button class="nav-btn right" id="completedNext">&#10095;</button>
             </div>
         </div>
     </div>
@@ -242,6 +185,69 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
             });
             $("#list_genre").html(html_data);
         });
+    </script>
+    <script>
+        function renderHistory() {
+            const raw = localStorage.getItem("watchHistory");
+            const container = document.getElementById("history_section");
+            if (!raw || !container) return;
+
+            const historyList = JSON.parse(raw);
+
+            const perAnime = {};
+            historyList.forEach(item => {
+                if (!perAnime[item.id_anime] || item.updated > perAnime[item.id_anime].updated) {
+                    perAnime[item.id_anime] = item;
+                }
+            });
+
+            const finalList = Object.values(perAnime)
+                .sort((a, b) => b.updated - a.updated)
+                .slice(0, 4);
+
+            container.innerHTML = "";
+            finalList.forEach(item => {
+                container.innerHTML += `
+                <div class="col" data-aos="fade-up">
+                    <div onclick="window.location='/view.php?anime=${item.id_anime}&episode=${item.episode}'" class="card h-100">
+                        <img src="${item.image}" class="card-img-top" style="height: 150px; object-fit: cover;" alt="${item.judul}">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-truncate mb-1">${item.judul}</h6>
+                            <small class="text-muted">Episode ${item.episode}</small>
+                        </div>
+                    </div>
+                </div>`;
+            });
+        }
+        document.addEventListener("DOMContentLoaded", renderHistory);
+    </script>
+    <script>
+        const container = document.getElementById('completedContainer');
+        const btnPrev = document.getElementById('completedPrev');
+        const btnNext = document.getElementById('completedNext');
+
+        function updateButtons() {
+            btnPrev.disabled = container.scrollLeft <= 0;
+            btnNext.disabled = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
+        }
+
+        btnPrev.addEventListener('click', () => {
+            container.scrollBy({
+                left: -200,
+                behavior: 'smooth'
+            });
+        });
+
+        btnNext.addEventListener('click', () => {
+            container.scrollBy({
+                left: 200,
+                behavior: 'smooth'
+            });
+        });
+
+        container.addEventListener('scroll', updateButtons);
+
+        document.addEventListener('DOMContentLoaded', updateButtons);
     </script>
 </body>
 

@@ -18,7 +18,7 @@ $dbConn = new Mysql($pdoConn);
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $page = max($page, 1);
-$limit = 12;
+$limit = 9;
 $offset = ($page - 1) * $limit;
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
