@@ -79,7 +79,7 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
         }
 
         #list_genre a.card-link:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #0b5ed7;
             color: #fff;
         }
 
@@ -134,7 +134,6 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
         </div>
         <div class="fade-overlay"></div>
     </div>
-
     <div class="container">
         <div class="row gy-3">
             <h2>Newly Released</h2>
@@ -156,14 +155,11 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
                             </div>
                         </div>
                     </div>
-                    <!-- Card anime lainnya akan ditambahkan secara dinamis oleh JS -->
                 </div>
-
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center" id="pagination"></ul>
                 </nav>
             </div>
-
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
@@ -174,7 +170,6 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
             </div>
         </div>
     </div>
-
     <footer class="text-center">
         <div class="container text-muted py-4 py-lg-5">
             <ul class="list-inline mb-3">
@@ -185,13 +180,11 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
             <p class="mb-0">Jangan Lupa Bernafas</p>
         </div>
     </footer>
-
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
         AOS.init();
-
         // Fetch anime list from API
         function loadAnime(page = 1) {
             $.get(`/api/list.php?page=${page}`, function(data) {
@@ -236,13 +229,11 @@ $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
             }
             $("#pagination").html(paginationHTML);
         }
-
         let currentPage = 1;
         let totalPages = 1;
         $(document).ready(function() {
             loadAnime();
         });
-
         // Genre Fetch
         $.get("/api/list_genre.php", function(result) {
             var html_data = "";

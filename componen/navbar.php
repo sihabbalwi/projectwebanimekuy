@@ -133,7 +133,7 @@ function generateAvatarColor($name)
   function search_anime() {
     const keyword = document.getElementById("search_anime").value.trim();
     if (keyword !== "") {
-      window.location.href = `?search=${encodeURIComponent(keyword)}`;
+      window.location.href = `/search.php?search=${encodeURIComponent(keyword)}`;
     }
   }
 </script>

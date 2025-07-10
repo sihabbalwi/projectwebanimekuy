@@ -1,123 +1,158 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
-<html data-bs-theme="dark" lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>AnimeKuy</title>
-    <link rel="apple-touch-icon" type="image/jpg" sizes="180x180" href="assets/img/vavicon.jpg">
-    <link rel="icon" type="image/jpg" sizes="512x512" href="assets/img/vavicon.jpg">
-    <link rel="icon" type="image/jpg" sizes="512x512" href="assets/img/vavicon.jpg" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/jpg" sizes="512x512" href="assets/img/vavicon.jpg">
-    <link rel="icon" type="image/jpg" sizes="512x512" href="assets/img/vavicon.jpg" media="(prefers-color-scheme: dark)">
-    <link rel="icon" type="image/jpg" sizes="180x180" href="assets/img/vavicon.jpg">
-    <link rel="icon" type="image/jpg" sizes="192x192" href="assets/img/vavicon.jpg">
-    <link rel="icon" type="image/jpg" sizes="512x512" href="assets/img/vavicon.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeKuy - Genre</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.c/ajaomx/libs/aos/2.3.4/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Articles-Cards-images.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Right-Links-Dark-icons.css">
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #f1f1f1;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .card {
+            background: #1c1c1c;
+            border: none;
+            border-radius: 14px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(255, 255, 255, 0.15);
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+        }
+
+        #list_genre a.card-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 20px;
+            padding: 6px 14px;
+            margin: 5px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        #list_genre a.card-link:hover {
+            background: #0b5ed7;
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: #1a1a1a;
+            padding-top: 40px;
+            border-top: 1px solid #2c2c2c;
+        }
+
+        footer p,
+        footer a {
+            color: #999;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background-color: #121212;
-        color: #fff;
-        font-family: 'Poppins', sans-serif;
-    }
-</style>
 
 <body>
-    <?php include 'componen/navbar.php'; ?>
-    <div class="container">
-        <div class="row gy-3" style="margin-top: 20px;">
-            <div class="col-md-8 flash animated">
-                <div id="list_anime" class="row gx-1 gy-1 row-cols-1 row-cols-md-2 row-cols-xl-3">
+<?php include 'componen/navbar.php'; ?>
 
-
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body" style="margin-bottom: 9px;">
-                        <h4 class="card-title">Genre</h4>
-                        <p class="card-text"></p>
-                        <div id="list_genre"></div>
-                    </div>
+<div class="container py-4">
+    <div class="row gy-4">
+        <div class="col-lg-9">
+            <h3 class="mb-3">Anime Genre: <span id="genre_title"></span></h3>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3" id="list_anime"></div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Genre List</h5>
+                    <div id="list_genre"></div>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="text-center">
-        <div class="container text-muted py-4 py-lg-5">
-            <ul class="list-inline">
-                <li class="list-inline-item me-4"><a class="link-secondary" href="#">Just</a></li>
-                <li class="list-inline-item me-4"><a class="link-secondary" href="#">for</a></li>
-                <li class="list-inline-item"><a class="link-secondary" href="#">Fun</a></li>
-            </ul>
-            <ul class="list-inline">
-                <li class="list-inline-item me-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-facebook">
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"></path>
-                    </svg></li>
-                <li class="list-inline-item"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-instagram">
-                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path>
-                    </svg></li>
-            </ul>
-            <p class="mb-0">Jangan Lupa Bernafas</p>
-        </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/script.js"></script>
+</div>
 
-    <script>
-        <?php
-        if (isset($_GET['genre'])) {
-            $genre = $_GET['genre'];
-            echo "var genre_test = '$genre'";
-        }
-        ?>
+<footer class="text-center mt-5">
+    <div class="container text-muted py-4">
+        <p class="mb-0">AnimeKuy &copy; 2025 - Jangan Lupa Bernafas</p>
+    </div>
+</footer>
 
-        $.get("/api/search_genre.php", {
-            genre: genre_test
-        }, function(result) {
-            //console.log(result);
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+AOS.init();
 
-            if (result.status) {
-                var data_html = "";
-                result.result.forEach((data) => {
-                    console.log(data);
-                    data_html += `<div class="col-6 col-md-4 aos-init aos-animate" data-aos="zoom-in">
-                          <div onclick="window.location = '/detail.php?anime=${data.id_anime}'" class="card" data-bss-hover-animate="pulse"><img class="card-img-top w-100 d-block fit-cover" style="height: 130px;" src="${data.image}">
-                              <div class="card-body p-4">
-                                   <p class="text-nowrap text-truncate text-primary-emphasis card-text mb-0">${data.status}</p>
-                                   <h4 class="text-nowrap text-truncate fs-6 card-title">${data.judul}</h4>
-                                   <p class="card-text"></p>
+$(document).ready(function(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const genre = urlParams.get('genre') || '';
+    $('#genre_title').text(genre);
+
+    // Fetch anime by genre
+    $.get("/api/search_genre.php", { genre: genre }, function(result){
+        if(result.status && result.result.length > 0){
+            let html = '';
+            result.result.forEach(anime => {
+                html += `
+                <div class="col" data-aos="zoom-in">
+                    <div onclick="window.location='/detail.php?anime=${anime.id_anime}'" class="card h-100">
+                        <img class="card-img-top w-100" style="height: 150px; object-fit: cover" src="${anime.image}">
+                        <div class="card-body">
+                            <p class="text-primary mb-1">${anime.status}</p>
+                            <h5 class="card-title">${anime.judul}</h5>
+                            <div class="d-flex align-items-center mt-3">
+                                <img class="rounded-circle me-3" width="40" height="40" src="https://png.pngtree.com/png-clipart/20230409/original/pngtree-admin-and-customer-service-job-vacancies-png-image_9041264.png">
+                                <div>
+                                    <p class="mb-0 fw-bold">Admin</p>
+                                    <small class="text-muted">AnimeKuy</small>
                                 </div>
                             </div>
                         </div>
-                    </div>`;
-
-                    $("#list_anime").html(data_html);
-
-                })
-            } else {
-                $("#list_anime").html("<h1>Page anime/video tidak ditemukan</h1>");
-            }
-        })
-
-        $.get("/api/list_genre.php", function(result) {
-            var html_data = "";
-            result.result.forEach((anime) => {
-                html_data += `<a class="card-link" href="/genre.php?genre=${anime.genre}">${anime.genre}</a>`;
+                    </div>
+                </div>`;
             });
+            $('#list_anime').html(html);
+            AOS.refresh();
+        } else {
+            $('#list_anime').html('<div class="col"><p class="text-center">Anime tidak ditemukan untuk genre ini.</p></div>');
+        }
+    });
 
-            $("#list_genre").html(html_data);
-        })
-    </script>
+    // Fetch genre list
+    $.get("/api/list_genre.php", function(result){
+        if(result.status && result.result.length > 0){
+            let html = '';
+            result.result.forEach(item => {
+                html += `<a href="/genre.php?genre=${item.genre}" class="card-link">${item.genre}</a>`;
+            });
+            $('#list_genre').html(html);
+        } else {
+            $('#list_genre').html('<p class="text-muted">Genre tidak ditemukan.</p>');
+        }
+    });
+});
+</script>
+
 </body>
-
 </html>
