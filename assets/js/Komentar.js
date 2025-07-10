@@ -1,3 +1,4 @@
+    // Firebase config dan inisialisasi
     const firebaseConfig = {
     apiKey: "AIzaSyAC4JuluOGRPrfC2w5JBS5TfhEOV-Zw_vo",
     authDomain: "animekuy-komentar.firebaseapp.com",
@@ -9,15 +10,6 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-
-    idAnime = String(idAnime);
-    episodeID = String(episodeID);
-    console.log("Debug init:", {
-    idAnime,
-    episodeID,
-    typeof_idAnime: typeof idAnime,
-    typeof_episodeID: typeof episodeID,
-    });
 
     function timeAgo(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
@@ -31,24 +23,22 @@
     ];
     for (const i of intervals) {
         const count = Math.floor(seconds / i.seconds);
-        if (count > 0) return `${count} ${i.label} yang lalu`;
+        if (count > 0) {
+        return `${count} ${i.label} yang lalu`;
+        }
     }
     return "baru saja";
     }
 
-    window.kirimKomentar = function (e) {
+    function kirimKomentar(e) {
     e.preventDefault();
-    if (!namaUser || !idAnime || !userEmail || !episodeID) {
-        alert("Login atau data anime tidak valid");
-        return;
-    }
-    const isi = document.getElementById("isiKomentar").value.trim();
-    if (!isi) return alert("Komentar kosong!");
-
+    if (!namaUser || !idAnime || !userEmail)
+        return alert("Login atau data anime tidak valid");
+    const isi = document.getElementById("isiKomentar").value;
     db.collection("komentar")
         .add({
-        id_anime: String(idAnime),
-        episode: String(episodeID),
+        id_anime: idAnime,
+        episode: episodeID,
         isi: isi,
         nama: namaUser,
         avatar: avatarUser,
@@ -59,202 +49,167 @@
         })
         .then(() => {
         document.getElementById("isiKomentar").value = "";
-        alert("Komentar berhasil dikirim!");
-        })
-        .catch((err) => {
-        console.error(err);
-        alert("Gagal kirim komentar!");
         });
-    };
+    }
 
     function tampilkanKomentar() {
-    console.log("Tampilkan komentar dengan:", { idAnime, episodeID });
     db.collection("komentar")
         .where("id_anime", "==", idAnime)
         .where("episode", "==", episodeID)
-        .orderBy("waktu", "asc")
         .onSnapshot((snapshot) => {
-        console.log("Snapshot size:", snapshot.size);
-        snapshot.forEach((doc) => console.log("Data komentar:", doc.data()));
-
         const list = document.getElementById("list-komentar");
         list.innerHTML = "";
 
-        const utama = [];
-        const balasan = {};
+        const komentarUtama = [];
+        const balasanKomentar = {};
 
         snapshot.forEach((doc) => {
-            const d = doc.data();
-            d.id = doc.id;
-            if (d.parent_id) {
-            if (!balasan[d.parent_id]) balasan[d.parent_id] = [];
-            balasan[d.parent_id].push(d);
+            const data = doc.data();
+            data.id = doc.id;
+            if (data.parent_id) {
+            if (!balasanKomentar[data.parent_id])
+                balasanKomentar[data.parent_id] = [];
+            balasanKomentar[data.parent_id].push(data);
             } else {
-            utama.push(d);
+            komentarUtama.push(data);
             }
         });
 
-        utama.forEach((data) =>
-            renderKomentar(list, data, balasan[data.id] || [])
-        );
+        komentarUtama.forEach((data) => {
+            renderKomentar(list, data, balasanKomentar[data.id] || []);
+        });
         });
     }
 
     function renderKomentar(container, data, balasanList) {
     const waktu = data.waktu?.toDate?.() || new Date();
     const relativeTime = timeAgo(waktu);
+    const avatar = data.avatar || "https://www.gravatar.com/avatar?d=mp";
     const isOwner = data.email === userEmail;
 
-    let menu = "";
+    let menuDropdown = "";
     if (isOwner) {
-        menu = `
-            <div class="dropdown position-absolute top-0 end-0">
-                <button class="btn btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown">⋮</button>
-                <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="editKomentar('${
-                data.id
-                }', \`${data.isi.replace(/`/g, "\\`")}\`)">Edit</a></li>
-                <li><a class="dropdown-item text-danger" href="#" onclick="hapusKomentar('${
-                data.id
-                }')">Hapus</a></li>
-                </ul>
-            </div>`;
+        menuDropdown = `
+                <div class="dropdown">
+                    <button class="btn btn-sm text-light dropdown-toggle position-absolute top-0 end-0" data-bs-toggle="dropdown">
+                    ⋮
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="editKomentar('${
+                    data.id
+                    }', \`${data.isi.replace(/`/g, "\\`")}\`)">Edit</a></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="hapusKomentar('${
+                    data.id
+                    }')">Hapus</a></li>
+                    </ul>
+                </div>
+                `;
     }
 
     const div = document.createElement("div");
     div.className = "d-flex mb-4 position-relative";
     div.innerHTML = `
-            <img src="${
-            data.avatar || "https://www.gravatar.com/avatar?d=mp"
-            }" class="rounded-circle me-3" width="40" height="40">
-            <div class="flex-grow-1">
-            <div class="fw-bold">${
-            data.nama
-            } <small class="text-muted ms-2">${relativeTime}</small></div>
-            <p>${data.isi}</p>
-            <div class="d-flex gap-2 mb-1">
-                <button class="btn btn-sm btn-outline-success" onclick="likeKomentar('${
+                <img src="${avatar}" class="rounded-circle me-3" width="40" height="40">
+                <div class="flex-grow-1">
+                <div class="fw-bold">${
+                data.nama
+                } <small class="text-muted ms-2">${relativeTime}</small></div>
+                <p>${data.isi}</p>
+                <div class="d-flex align-items-center gap-3 mb-1">
+                    <button class="btn btn-sm btn-outline-success" onclick="likeKomentar('${
+                    data.id
+                    }')">👍 ${(data.likes || []).length}</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="dislikeKomentar('${
+                    data.id
+                    }')">👎 ${(data.dislikes || []).length}</button>
+                    ${
+                    userEmail
+                        ? `<button class="btn btn-sm btn-outline-secondary" onclick="toggleBalasan('${data.id}')">Balas</button>`
+                        : ""
+                    }
+                </div>
+                <div id="balasan-area-${
                 data.id
-                }')">👍 ${(data.likes || []).length}</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="dislikeKomentar('${
-                data.id
-                }')">👎 ${(data.dislikes || []).length}</button>
-                ${
-                userEmail
-                    ? `<button class="btn btn-sm btn-outline-secondary" onclick="toggleBalasan('${data.id}')">Balas</button>`
-                    : ""
-                }
-            </div>
-            <div id="balasan-area-${
-            data.id
-            }" style="display:none; margin-left:50px;">
-                <textarea id="input-balasan-${
-                data.id
-                }" class="form-control mb-2" placeholder="Tulis balasan..."></textarea>
-                <button class="btn btn-primary btn-sm" onclick="kirimBalasan('${
-                data.id
-                }')">Kirim</button>
-            </div>
-            </div>
-            ${menu}`;
+                }" style="display:none; margin-left:50px;">
+                    <textarea id="input-balasan-${
+                    data.id
+                    }" class="form-control mb-2" placeholder="Tulis balasan..."></textarea>
+                    <button class="btn btn-primary btn-sm" onclick="kirimBalasan('${
+                    data.id
+                    }')">Kirim</button>
+                </div>
+                </div>
+                ${menuDropdown}
+            `;
     container.appendChild(div);
 
-    balasanList.forEach((b) => renderBalasan(container, b));
+    balasanList.forEach((b) => {
+        const waktu = b.waktu?.toDate?.() || new Date();
+        const relativeTime = timeAgo(waktu);
+        const isBalasanOwner = b.email === userEmail;
+        let menuBalasan = "";
+        if (isBalasanOwner) {
+        menuBalasan = `
+                    <div class="dropdown float-end">
+                    <button class="btn btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown">⋮</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-primary" href="#" onclick="editKomentar('${
+                        b.id
+                        }', \`${b.isi.replace(/`/g, "\\`")}\`)">Edit</a></li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="hapusKomentar('${
+                        b.id
+                        }')">Hapus</a></li>
+                    </ul>
+                    </div>`;
+        }
+        const reply = document.createElement("div");
+        reply.className = "d-flex ms-5 mb-3";
+        reply.innerHTML = `
+                <img src="${
+                b.avatar
+                }" class="rounded-circle me-3" width="32" height="32">
+                <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between">
+                    <div class="fw-bold">${
+                    b.nama
+                    } <small class="text-muted ms-2">${relativeTime}</small></div>
+                    ${menuBalasan}
+                    </div>
+                    <p>${b.isi}</p>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                    <button class="btn btn-sm btn-outline-success" onclick="likeKomentar('${
+                    b.id
+                    }')">👍 ${(b.likes || []).length}</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="dislikeKomentar('${
+                    b.id
+                    }')">👎 ${(b.dislikes || []).length}</button>
+                    </div>
+                </div>`;
+        container.appendChild(reply);
+    });
     }
 
-    function renderBalasan(container, b) {
-    const waktu = b.waktu?.toDate?.() || new Date();
-    const relativeTime = timeAgo(waktu);
-    const isOwner = b.email === userEmail;
-
-    let menu = "";
-    if (isOwner) {
-        menu = `
-            <div class="dropdown float-end">
-                <button class="btn btn-sm text-light dropdown-toggle" data-bs-toggle="dropdown">⋮</button>
-                <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="editKomentar('${
-                b.id
-                }', \`${b.isi.replace(/`/g, "\\`")}\`)">Edit</a></li>
-                <li><a class="dropdown-item text-danger" href="#" onclick="hapusKomentar('${
-                b.id
-                }')">Hapus</a></li>
-                </ul>
-            </div>`;
-    }
-
-    const reply = document.createElement("div");
-    reply.className = "d-flex ms-5 mb-3";
-    reply.innerHTML = `
-            <img src="${
-            b.avatar
-            }" class="rounded-circle me-3" width="32" height="32">
-            <div class="flex-grow-1">
-            <div class="d-flex justify-content-between">
-                <div class="fw-bold">${
-                b.nama
-                } <small class="text-muted ms-2">${relativeTime}</small></div>
-                ${menu}
-            </div>
-            <p>${b.isi}</p>
-            <div class="d-flex gap-2 mb-2">
-                <button class="btn btn-sm btn-outline-success" onclick="likeKomentar('${
-                b.id
-                }')">👍 ${(b.likes || []).length}</button>
-                <button class="btn btn-sm btn-outline-danger" onclick="dislikeKomentar('${
-                b.id
-                }')">👎 ${(b.dislikes || []).length}</button>
-            </div>
-            </div>`;
-    container.appendChild(reply);
-    }
-
-    function toggleBalasan(id) {
-    const el = document.getElementById(`balasan-area-${id}`);
-    el.style.display = el.style.display === "none" ? "block" : "none";
-    }
-
-    function kirimBalasan(parentId) {
-    if (!namaUser || !userEmail) return alert("Login untuk membalas komentar!");
-    const isi = document.getElementById(`input-balasan-${parentId}`).value.trim();
-    if (!isi) return alert("Balasan kosong!");
-    db.collection("komentar")
-        .add({
-        id_anime: String(idAnime),
-        episode: String(episodeID),
-        parent_id: parentId,
-        isi: isi,
-        nama: namaUser,
-        avatar: avatarUser,
-        email: userEmail,
-        waktu: firebase.firestore.FieldValue.serverTimestamp(),
-        likes: [],
-        dislikes: [],
-        })
-        .then(() => {
-        document.getElementById(`input-balasan-${parentId}`).value = "";
-        toggleBalasan(parentId);
-        })
-        .catch((err) => {
-        console.error(err);
-        alert("Gagal kirim balasan!");
-        });
-    }
+    tampilkanKomentar();
 
     function likeKomentar(id) {
-    if (!userEmail) return alert("Login untuk Like");
+    if (!userEmail) return alert("Harus login untuk Like");
     db.collection("komentar")
         .doc(id)
         .get()
         .then((doc) => {
         const d = doc.data();
-        if (d.likes.includes(userEmail)) {
+        const likes = d.likes || [];
+        const dislikes = d.dislikes || [];
+
+        if (likes.includes(userEmail)) {
+            // Sudah like → batal like
             db.collection("komentar")
             .doc(id)
             .update({
                 likes: firebase.firestore.FieldValue.arrayRemove(userEmail),
             });
         } else {
+            // Tambah like, dan jika ada dislike hapus dislike
             db.collection("komentar")
             .doc(id)
             .update({
@@ -264,20 +219,26 @@
         }
         });
     }
+
     function dislikeKomentar(id) {
-    if (!userEmail) return alert("Login untuk Dislike");
+    if (!userEmail) return alert("Harus login untuk Dislike");
     db.collection("komentar")
         .doc(id)
         .get()
         .then((doc) => {
         const d = doc.data();
-        if (d.dislikes.includes(userEmail)) {
+        const dislikes = d.dislikes || [];
+        const likes = d.likes || [];
+
+        if (dislikes.includes(userEmail)) {
+            // Sudah dislike → batal dislike
             db.collection("komentar")
             .doc(id)
             .update({
                 dislikes: firebase.firestore.FieldValue.arrayRemove(userEmail),
             });
         } else {
+            // Tambah dislike, dan jika ada like hapus like
             db.collection("komentar")
             .doc(id)
             .update({
@@ -285,6 +246,35 @@
                 likes: firebase.firestore.FieldValue.arrayRemove(userEmail),
             });
         }
+        });
+    }
+
+    function toggleBalasan(id) {
+    const el = document.getElementById(`balasan-area-${id}`);
+    el.style.display = el.style.display === "none" ? "block" : "none";
+    }
+
+    function kirimBalasan(parentId) {
+    if (!namaUser || !userEmail)
+        return alert("Harus login untuk membalas komentar");
+    const isi = document.getElementById(`input-balasan-${parentId}`).value.trim();
+    if (!isi) return alert("Balasan kosong!");
+    db.collection("komentar")
+        .add({
+        id_anime: idAnime,
+        episode: episodeID,
+        isi: isi,
+        nama: namaUser,
+        avatar: avatarUser,
+        email: userEmail,
+        waktu: firebase.firestore.FieldValue.serverTimestamp(),
+        parent_id: parentId,
+        likes: [],
+        dislikes: [],
+        })
+        .then(() => {
+        document.getElementById(`input-balasan-${parentId}`).value = "";
+        toggleBalasan(parentId);
         });
     }
 
@@ -297,10 +287,9 @@
         });
     }
     }
+
     function hapusKomentar(id) {
-    if (confirm("Hapus komentar ini?")) {
+    if (confirm("Yakin ingin menghapus komentar ini?")) {
         db.collection("komentar").doc(id).delete();
     }
     }
-
-    tampilkanKomentar();
