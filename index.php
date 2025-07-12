@@ -5,6 +5,8 @@ include 'componen/navbar.php';
 
 $bannerQ = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
 $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Completed' ORDER BY id_anime DESC");
+$donghuaQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE tipe='donghua' ORDER BY id_anime DESC");
+
 ?>
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="en">
@@ -108,7 +110,7 @@ $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Complete
             </div>
         </div>
         <div class="row mt-5">
-            <h2>Completed Anime</h2>
+            <h2>Complete Anime</h2>
             <div class="completed-slider position-relative" data-aos="fade-up">
                 <button class="nav-btn left" id="completedPrev">&#10094;</button>
                 <div class="slider-container d-flex overflow-hidden" id="completedContainer">
@@ -120,6 +122,21 @@ $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Complete
                     <?php endwhile; ?>
                 </div>
                 <button class="nav-btn right" id="completedNext">&#10095;</button>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <h2>Donghua</h2>
+            <div class="completed-slider position-relative" data-aos="fade-up">
+                <button class="nav-btn left" id="donghuaPrev">&#10094;</button>
+                <div class="slider-container d-flex overflow-hidden" id="donghuaContainer">
+                    <?php while ($d = mysqli_fetch_assoc($donghuaQ)): ?>
+                        <div class="anime-card flex-shrink-0" onclick="window.location='detail.php?anime=<?= $d['id_anime'] ?>'">
+                            <img src="<?= htmlspecialchars($d['image']) ?>" alt="<?= htmlspecialchars($d['judul']) ?>">
+                            <div class="card-caption"><?= htmlspecialchars($d['judul']) ?></div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                <button class="nav-btn right" id="donghuaNext">&#10095;</button>
             </div>
         </div>
     </div>
@@ -258,6 +275,30 @@ $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Complete
         container.addEventListener('scroll', updateButtons);
 
         document.addEventListener('DOMContentLoaded', updateButtons);
+
+        const dContainer = document.getElementById('donghuaContainer');
+        const dPrev = document.getElementById('donghuaPrev');
+        const dNext = document.getElementById('donghuaNext');
+
+        function updateDonghuaButtons() {
+            dPrev.disabled = dContainer.scrollLeft <= 0;
+            dNext.disabled = dContainer.scrollLeft + dContainer.clientWidth >= dContainer.scrollWidth - 1;
+        }
+
+        dPrev.addEventListener('click', () => {
+            dContainer.scrollBy({
+                left: -200,
+                behavior: 'smooth'
+            });
+        });
+        dNext.addEventListener('click', () => {
+            dContainer.scrollBy({
+                left: 200,
+                behavior: 'smooth'
+            });
+        });
+        dContainer.addEventListener('scroll', updateDonghuaButtons);
+        document.addEventListener('DOMContentLoaded', updateDonghuaButtons);
     </script>
 </body>
 

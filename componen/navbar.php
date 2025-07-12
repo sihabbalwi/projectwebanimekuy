@@ -17,6 +17,46 @@ function generateAvatarColor($name)
   return $colors[$index];
 }
 ?>
+<style>
+  .avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+
+  .avatar-circle .initial {
+    line-height: 1;
+  }
+
+  .hover-shadow:hover {
+    background-color: #0d6efd;
+    color: white !important;
+    transition: all 0.3s ease;
+  }
+
+  .hover-dropdown:hover>.dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+
+  .dropdown-menu a.dropdown-item {
+    transition: background-color 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  .dropdown-menu a.dropdown-item:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+</style>
 
 <nav class="navbar navbar-expand-md sticky-top py-3" style="background-color: #121212;" data-bs-theme="dark">
   <div class="container">
@@ -38,10 +78,14 @@ function generateAvatarColor($name)
     <div class="collapse navbar-collapse" id="navcol-5">
       <ul class="navbar-nav ms-auto align-items-center">
         <!-- MENU UTAMA -->
-        <li class="nav-item ms-2 px-2">
-          <a class="nav-link d-flex align-items-center text-light px-3 py-2 rounded hover-shadow" href="/anime_list.php" style="gap: 6px;">
-            <span>Anime List</span>
+        <li class="nav-item dropdown ms-2 px-2 hover-dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center text-light px-3 py-2 rounded hover-shadow" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="gap: 6px;">
+            <span>List</span>
           </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="/anime_list.php">Anime</a></li>
+            <li><a class="dropdown-item" href="/donghua_list.php">Donghua</a></li>
+          </ul>
         </li>
         <li class="nav-item ms-2 px-2">
           <a class="nav-link d-flex align-items-center text-light px-3 py-2 rounded hover-shadow" href="/history.php" style="gap: 6px;">
@@ -97,33 +141,6 @@ function generateAvatarColor($name)
     </div>
   </div>
 </nav>
-
-<!--  CSS -->
-<style>
-  .avatar-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: white;
-    font-size: 16px;
-    text-transform: uppercase;
-  }
-
-  .avatar-circle .initial {
-    line-height: 1;
-  }
-
-  .hover-shadow:hover {
-    background-color: #0d6efd;
-    /* Bootstrap btn-primary */
-    color: white !important;
-    transition: all 0.3s ease;
-  }
-</style>
 
 <!-- Search Enter Handler -->
 <script>
