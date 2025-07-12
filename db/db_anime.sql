@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 03:37 PM
+-- Generation Time: Jul 12, 2025 at 10:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,16 +60,18 @@ INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `ge
 
 CREATE TABLE `tb_banner` (
   `id` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL
+  `image` varchar(255) NOT NULL,
+  `id_anime` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_banner`
 --
 
-INSERT INTO `tb_banner` (`id`, `image`) VALUES
-(8, 'banner_1752064554.png'),
-(9, 'banner_1752065222.png');
+INSERT INTO `tb_banner` (`id`, `image`, `id_anime`) VALUES
+(10, 'banner_1752305110.png', 14),
+(11, 'banner_1752308338.jpg', 9),
+(12, 'banner_1752308692.png', 13);
 
 -- --------------------------------------------------------
 
@@ -211,7 +213,8 @@ INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type
 (2, 'Ari', 'ari.nugroho552004@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJdfDofoQFYsuG-X1KcSb4IN1uZg6p_D8tqJVkULZG0lvOdng=s96-c', 'google'),
 (4, 'Arthur', 'reviel.ok1998@gmail.com', '$2y$10$wybRzy1KltH5PCMWf4B6UOVtI4RsnEAg0lpEQ7waNYdevbEQSYlZ.', NULL, 'manual'),
 (5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google'),
-(7, 'Admin', 'admin@gmail.com', '$2y$10$mcMHaUbW89g0qchuqJ0f0.KTTbiRAtGYsOJv0cYL7wh4HEOw5EuCq', NULL, 'manual');
+(7, 'Admin', 'admin@gmail.com', '$2y$10$mcMHaUbW89g0qchuqJ0f0.KTTbiRAtGYsOJv0cYL7wh4HEOw5EuCq', NULL, 'manual'),
+(8, 'A. ri', 'hydra.ari40@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocL-y131mLQHRreQaj5xqLzLmf5SQRpHo6SZQSOi2TClpKj8lnRp=s96-c', 'google');
 
 --
 -- Indexes for dumped tables
@@ -263,7 +266,7 @@ ALTER TABLE `tb_anime`
 -- AUTO_INCREMENT for table `tb_banner`
 --
 ALTER TABLE `tb_banner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tb_episode`
@@ -275,7 +278,7 @@ ALTER TABLE `tb_episode`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

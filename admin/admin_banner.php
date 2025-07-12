@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
         $newName = 'banner_' . time() . '.' . $ext;
         move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $newName);
 
-        mysqli_query($conn, "INSERT INTO tb_banner (image) VALUES ('$newName')");
+        $id_anime = !empty($_POST['id_anime']) ? intval($_POST['id_anime']) : "NULL";
+        mysqli_query($conn, "INSERT INTO tb_banner (image, id_anime) VALUES ('$newName', $id_anime)");
         $success = "✅ Banner berhasil ditambahkan!";
     } else {
         $error = "❗ Pilih gambar terlebih dahulu!";
@@ -84,6 +85,18 @@ $banners = mysqli_query($conn, "SELECT * FROM tb_banner ORDER BY id DESC");
                     <div class="mb-3">
                         <label class="form-label">Upload Gambar Banner Baru</label>
                         <input type="file" name="image" class="form-control bg-dark text-white" accept="image/*" required>
+                    </div>
+                    <?php
+                    $animeList = mysqli_query($conn, "SELECT id_anime, judul FROM tb_anime");
+                    ?>
+                    <div class="mb-3">
+                        <label class="form-label">Pilih Anime (opsional)</label>
+                        <select name="id_anime" class="form-select bg-dark text-white">
+                            <option value="">-  link  detail -</option>
+                            <?php while ($a = mysqli_fetch_assoc($animeList)): ?>
+                                <option value="<?= $a['id_anime'] ?>"><?= htmlspecialchars($a['judul']) ?></option>
+                            <?php endwhile; ?>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-warning"><i class="bi bi-upload"></i> Upload</button>
                 </form>

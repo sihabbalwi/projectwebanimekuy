@@ -43,6 +43,14 @@ function generateAvatarColor($name)
             <span>Anime List</span>
           </a>
         </li>
+        <li class="nav-item ms-2 px-2">
+          <a class="nav-link d-flex align-items-center text-light px-3 py-2 rounded hover-shadow" href="/history.php" style="gap: 6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
+              <path d="M8.515 3.465a.5.5 0 0 1 1 0V8a.5.5 0 0 1-.5.5H7a.5.5 0 0 1 0-1h1.515V3.465z" />
+              <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM1 8a7 7 0 1 1 7 7A7 7 0 0 1 1 8z" />
+            </svg>
+          </a>
+        </li>
         <li class="nav-item d-flex align-items-center">
           <input id="search_anime" type="search" class="form-control form-control-sm me-2" placeholder="Search">
           <a onclick="search_anime()" class="btn btn-sm btn-primary" href="#">

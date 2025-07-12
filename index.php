@@ -20,6 +20,7 @@ $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Complete
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body>
     <div class="container my-4 position-relative">
         <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -29,7 +30,16 @@ $completedQ = mysqli_query($conn, "SELECT * FROM tb_anime WHERE status='Complete
                 while ($b = mysqli_fetch_assoc($bannerQ)) :
                 ?>
                     <div class="carousel-item <?= $first ? 'active' : '' ?>">
-                        <img src="admin/uploads/<?= htmlspecialchars($b['image']) ?>" class="d-block w-100 banner-img" alt="banner">
+                        <?php if (!empty($b['id_anime'])):
+                            $anime = mysqli_fetch_assoc(mysqli_query($conn, "SELECT judul FROM tb_anime WHERE id_anime={$b['id_anime']}"));
+                        ?>
+                            <a href="/detail.php?anime=<?= $b['id_anime'] ?>">
+                                <img src="admin/uploads/<?= htmlspecialchars($b['image']) ?>" class="d-block w-100 banner-img" alt="banner">
+                                <div class="position-absolute bottom-0 start-0 bg-dark bg-opacity-50 text-white px-3 py-1"><?= htmlspecialchars($anime['judul']) ?></div>
+                            </a>
+                        <?php else: ?>
+                            <img src="admin/uploads/<?= htmlspecialchars($b['image']) ?>" class="d-block w-100 banner-img" alt="banner">
+                        <?php endif; ?>
                     </div>
                 <?php
                     $first = false;
