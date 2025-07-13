@@ -1,4 +1,6 @@
-<?php include '../koneksi/koneksi.php';
+<?php 
+
+include '../koneksi/koneksi.php';
 
 $genreResult = mysqli_query($conn, "SELECT genre FROM tb_genre ORDER BY genre ASC");
 $genreList = [];

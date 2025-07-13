@@ -1,5 +1,6 @@
 <?php
 include '../koneksi/koneksi.php';
+
 $animeList = mysqli_query($conn, "SELECT * FROM tb_anime ORDER BY judul ASC");
 ?>
 <!DOCTYPE html>

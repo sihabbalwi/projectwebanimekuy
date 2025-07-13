@@ -51,7 +51,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       </div>
     </li>
     <li><a href="add_genre.php" class="nav-link"><i class="bi bi-tag me-2"></i>Genre</a></li>
-
+    <li><a href="komentar.php" class="nav-link"><i class="bi bi-tag me-2"></i>Komentar</a></li>
     <li><a href="admin_banner.php" class="nav-link"><i class="bi bi-images me-2"></i>Banner</a></li>
   </ul>
   <hr>
