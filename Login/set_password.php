@@ -1,6 +1,32 @@
 <?php
 session_start();
-$email_value = $_SESSION['reset_email'] ?? '';
+include '../koneksi/koneksi.php';
+$email = $_SESSION['reg_email'] ?? '';
+$message = '';
+
+if (empty($email)) {
+    $message = "<div class='text-danger mb-2'>Sesi tidak valid. Silakan daftar ulang.</div>";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $password = $_POST['password'] ?? '';
+    $confirm  = $_POST['confirm'] ?? '';
+
+    if (empty($password) || empty($confirm)) {
+        $message = "<div class='text-danger mb-2'>Harap isi semua field</div>";
+    } elseif ($password !== $confirm) {
+        $message = "<div class='text-danger mb-2'>Password dan konfirmasi tidak sama</div>";
+    } else {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $query = mysqli_query($conn, "UPDATE tb_users SET password='$hash' WHERE email='$email' AND is_verified=1");
+        if (mysqli_affected_rows($conn) > 0) {
+            $_SESSION['success'] = "berhasil daftar! Silakan login.";
+            unset($_SESSION['reg_email']);
+            header('Location: Login.php');
+            exit;
+        } else {
+            $message = "<div class='text-danger mb-2'>Gagal menyimpan password. Pastikan akun sudah diverifikasi.</div>";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +34,7 @@ $email_value = $_SESSION['reset_email'] ?? '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lupa Password</title>
+    <title>Buat Password Baru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -71,13 +97,17 @@ $email_value = $_SESSION['reset_email'] ?? '';
 <body>
     <div class="overlay"></div>
     <div class="form-box">
-        <h3 class="mb-4">Lupa Password</h3>
-        <form method="post" action="send_reset_code.php">
+        <h3 class="mb-4">Buat Password</h3>
+        <?= $message ?>
+        <form method="post">
             <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Masukkan emailmu" value="<?= htmlspecialchars($email_value) ?>" required>
+                <input type="password" name="password" class="form-control" placeholder="Password baru" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="confirm" class="form-control" placeholder="Konfirmasi password" required>
             </div>
             <div class="mb-3 d-grid">
-                <button type="submit" class="btn btn-submit text-white">Kirim kode</button>
+                <button type="submit" class="btn btn-submit text-white">SIMPAN PASSWORD</button>
             </div>
         </form>
     </div>

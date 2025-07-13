@@ -1,6 +1,25 @@
 <?php
 session_start();
-$email_value = $_SESSION['reset_email'] ?? '';
+include '../koneksi/koneksi.php';
+$message = '';
+$email = $_SESSION['reset_email'] ?? '';
+
+if (empty($email)) {
+    $message = "<div class='text-danger mb-2'>Sesi tidak valid. Silakan ulangi.</div>";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verify'])) {
+    $code = trim($_POST['code'] ?? '');
+    if (empty($code)) {
+        $message = "<div class='text-danger mb-2'>Harap isi kode verifikasi</div>";
+    } else {
+        $check = mysqli_query($conn, "SELECT * FROM tb_users WHERE email='$email' AND verif_code='$code'");
+        if (mysqli_num_rows($check) > 0) {
+            header('Location: reset_password.php');
+            exit;
+        } else {
+            $message = "<div class='text-danger mb-2'>Kode salah!</div>";
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +27,7 @@ $email_value = $_SESSION['reset_email'] ?? '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lupa Password</title>
+    <title>Verifikasi Kode</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -71,13 +90,14 @@ $email_value = $_SESSION['reset_email'] ?? '';
 <body>
     <div class="overlay"></div>
     <div class="form-box">
-        <h3 class="mb-4">Lupa Password</h3>
-        <form method="post" action="send_reset_code.php">
+        <h3 class="mb-4">Verifikasi Kode</h3>
+        <?= $message ?>
+        <form method="post">
             <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Masukkan emailmu" value="<?= htmlspecialchars($email_value) ?>" required>
+                <input type="text" name="code" class="form-control" placeholder="Kode verifikasi" required>
             </div>
             <div class="mb-3 d-grid">
-                <button type="submit" class="btn btn-submit text-white">Kirim kode</button>
+                <button type="submit" name="verify" class="btn btn-submit text-white">VERIFIKASI</button>
             </div>
         </form>
     </div>

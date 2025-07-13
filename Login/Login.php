@@ -1,6 +1,13 @@
 <?php
+session_start();
 include('config.php');
+unset($_SESSION['reg_username'], $_SESSION['reg_email']);
+$message = '';
 
+if (!empty($_SESSION['success'])) {
+    $message = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -158,13 +165,15 @@ include('config.php');
 <body>
     <div class="overlay"></div>
 
-    <!-- Header Animekuy -->
-    <div class="animekuy-header d-flex align-items-center px-4 py-2"><a href="/index.php">
+    <!-- Header -->
+    <div class="animekuy-header d-flex align-items-center px-4 py-2">
+        <a href="/index.php">
             <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
                     viewBox="0 0 16 16" class="bi bi-brilliance">
                     <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7" />
-                </svg><span class="px-2"> Animekuy</span>
+                </svg>
+                <span class="px-2"> Animekuy</span>
             </span>
         </a>
     </div>
@@ -178,10 +187,10 @@ include('config.php');
         <?php endif; ?>
         <form action="login_proses.php" method="POST">
             <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Email" required />
+                <input type="email" name="email" required placeholder="Email" class="form-control mb-3">
             </div>
             <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Kata sandi" required />
+                <input type="password" name="password" required placeholder="Password" class="form-control mb-3">
             </div>
             <div class="mb-3 d-grid">
                 <button type="submit" class="btn btn-login text-white">Masuk</button>
@@ -194,9 +203,9 @@ include('config.php');
                 <button type="button" class="btn btn-google">
                     <a href="<?= $url ?>"><img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo" class="me-2">
                         Masuk dengan Google
+                    </a>
                 </button>
             </div>
-
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="rememberMe" />
@@ -211,14 +220,26 @@ include('config.php');
                     <a href="#" id="learnMoreLink">Pelajari selengkapnya.</a>
                 </p>
                 <div id="learnMoreText" class="recaptcha-text mt-2" style="display: none;">
-                    Informasi yang dikumpulkan oleh Google reCAPTCHA tunduk pada <a
-                        href="https://policies.google.com/privacy" target="_blank">Kebijakan Privasi</a> dan <a
-                        href="https://policies.google.com/terms" target="_blank">Persyaratan Layanan</a> Google. Layanan
-                    ini digunakan untuk melindungi situs dari aktivitas berbahaya seperti bot.
+                    Informasi yang dikumpulkan oleh Google reCAPTCHA tunduk pada
+                    <a href="https://policies.google.com/privacy" target="_blank">Kebijakan Privasi</a> dan
+                    <a href="https://policies.google.com/terms" target="_blank">Persyaratan Layanan</a> Google.
                 </div>
             </div>
         </form>
     </div>
+
+    <?php if ($message): ?>
+        <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1080;">
+            <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <script>
         document.getElementById('learnMoreLink').addEventListener('click', function(event) {
@@ -227,10 +248,17 @@ include('config.php');
             document.getElementById('learnMoreText').style.display = 'block';
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <?php if ($message): ?>
+        <script>
+            var toastEl = document.getElementById('successToast');
+            var toast = new bootstrap.Toast(toastEl, {
+                delay: 4000
+            }); 
+            toast.show();
+        </script>
+    <?php endif; ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>

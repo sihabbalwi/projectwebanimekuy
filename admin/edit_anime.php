@@ -10,7 +10,6 @@ $id = $_GET['id'];
 $data = mysqli_query($conn, "SELECT * FROM tb_anime WHERE id_anime='$id'");
 $anime = mysqli_fetch_assoc($data);
 
-// Ambil daftar genre dari database
 $genreResult = mysqli_query($conn, "SELECT genre FROM tb_genre ORDER BY genre ASC");
 $genreList = [];
 while ($row = mysqli_fetch_assoc($genreResult)) {

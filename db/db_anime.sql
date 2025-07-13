@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2025 at 12:23 PM
+-- Generation Time: Jul 13, 2025 at 12:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -209,19 +209,19 @@ CREATE TABLE `tb_users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
-  `login_type` enum('manual','google') DEFAULT 'manual'
+  `login_type` enum('manual','google') DEFAULT 'manual',
+  `verif_code` varchar(10) DEFAULT NULL,
+  `is_verified` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_users`
 --
 
-INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type`) VALUES
-(2, 'Ari', 'ari.nugroho552004@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJdfDofoQFYsuG-X1KcSb4IN1uZg6p_D8tqJVkULZG0lvOdng=s96-c', 'google'),
-(4, 'Arthur', 'reviel.ok1998@gmail.com', '$2y$10$wybRzy1KltH5PCMWf4B6UOVtI4RsnEAg0lpEQ7waNYdevbEQSYlZ.', NULL, 'manual'),
-(5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google'),
-(7, 'Admin', 'admin@gmail.com', '$2y$10$mcMHaUbW89g0qchuqJ0f0.KTTbiRAtGYsOJv0cYL7wh4HEOw5EuCq', NULL, 'manual'),
-(8, 'A. ri', 'hydra.ari40@gmail.com', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocL-y131mLQHRreQaj5xqLzLmf5SQRpHo6SZQSOi2TClpKj8lnRp=s96-c', 'google');
+INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type`, `verif_code`, `is_verified`) VALUES
+(5, 'ARI NUGROHO 23.11.5796', 'arinugroho@students.amikom.ac.id', NULL, 'https://lh3.googleusercontent.com/a/ACg8ocJmbkphXk6Ei6fMutQyMTbIhGlHM0xzf_LkP4LOUeFH1PUKRw=s96-c', 'google', NULL, 0),
+(7, 'Admin', 'admin@gmail.com', '$2y$10$mcMHaUbW89g0qchuqJ0f0.KTTbiRAtGYsOJv0cYL7wh4HEOw5EuCq', NULL, 'manual', NULL, 0),
+(19, 'Arth', 'ari.nugroho552004@gmail.com', '$2y$10$U3NMxaV7lRiBJwg2lYxeDekXGQ4Y4vSd4fpCGW0Gf5ybZJf3g8YGK', NULL, 'manual', '926208', 1);
 
 --
 -- Indexes for dumped tables
@@ -285,7 +285,7 @@ ALTER TABLE `tb_episode`
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
