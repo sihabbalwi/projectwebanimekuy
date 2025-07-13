@@ -41,7 +41,27 @@ arsort($genreMap);
 $genreLabels = array_slice(array_keys($genreMap), 0, 5);
 $genreCounts = array_slice(array_values($genreMap), 0, 5);
 
-$animeList = mysqli_query($conn, "SELECT * FROM tb_anime ORDER BY id_anime DESC");
+$where = [];
+
+if (!empty($_GET['judul'])) {
+    $judul = mysqli_real_escape_string($conn, $_GET['judul']);
+    $where[] = "judul LIKE '%$judul%'";
+}
+
+if (!empty($_GET['status'])) {
+    $status = mysqli_real_escape_string($conn, $_GET['status']);
+    $where[] = "status = '$status'";
+}
+
+if (!empty($_GET['tipe'])) {
+    $tipe = mysqli_real_escape_string($conn, $_GET['tipe']);
+    $where[] = "tipe = '$tipe'";
+}
+
+$whereClause = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
+
+$animeList = mysqli_query($conn, "SELECT * FROM tb_anime $whereClause ORDER BY id_anime DESC");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -157,6 +177,34 @@ $animeList = mysqli_query($conn, "SELECT * FROM tb_anime ORDER BY id_anime DESC"
             </div>
         </div>
 
+        <form method="GET" class="row g-2 mb-3">
+            <div class="col-md-3">
+                <input type="text" name="judul" class="form-control" placeholder="Cari judul..." value="<?= $_GET['judul'] ?? '' ?>">
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">Semua Status</option>
+                    <?php foreach (array_keys($statusData) as $s): ?>
+                        <option value="<?= $s ?>" <?= (($_GET['status'] ?? '') === $s) ? 'selected' : '' ?>><?= $s ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="tipe" class="form-select">
+                    <option value="">Semua Tipe</option>
+                    <?php foreach (array_keys($tipeData) as $t): ?>
+                        <option value="<?= $t ?>" <?= (($_GET['tipe'] ?? '') === $t) ? 'selected' : '' ?>><?= ucfirst($t) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary w-100"> Filter</button>
+                    <a href="index.php" class="btn btn-secondary w-100"> Reset</a>
+                </div>
+            </div>
+        </form>
+
         <!-- Tabel Anime -->
         <div class="table-responsive">
             <table class="table table-dark table-striped table-bordered mb-0">
@@ -177,9 +225,11 @@ $animeList = mysqli_query($conn, "SELECT * FROM tb_anime ORDER BY id_anime DESC"
                             <td><?= htmlspecialchars($anime['tipe'] ?? '-') ?></td>
                             <td><?= htmlspecialchars($anime['genre']) ?></td>
                             <td>
-                                <a href="edit_anime.php?id=<?= $anime['id_anime'] ?>" class="btn btn-warning btn-sm">✏ Edit</a>
-                                <a href="delete_anime.php?id=<?= $anime['id_anime'] ?>" onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">🗑 Hapus</a>
-                                <a href="add_episode.php?id_anime=<?= $anime['id_anime'] ?>" class="btn btn-info btn-sm">+ Episode</a>
+                                <div class="d-flex flex-wrap gap-1">
+                                    <a href="edit_anime.php?id=<?= $anime['id_anime'] ?>" class="btn btn-warning btn-sm"> Edit</a>
+                                    <a href="delete_anime.php?id=<?= $anime['id_anime'] ?>" onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm"> Hapus</a>
+                                    <a href="add_episode.php?id_anime=<?= $anime['id_anime'] ?>" class="btn btn-info btn-sm"> Episode</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>

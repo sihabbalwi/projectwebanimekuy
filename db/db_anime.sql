@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Jul 2025 pada 15.13
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Jul 13, 2025 at 03:59 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_anime`
+-- Table structure for table `tb_anime`
 --
 
 CREATE TABLE `tb_anime` (
@@ -38,7 +38,7 @@ CREATE TABLE `tb_anime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_anime`
+-- Dumping data for table `tb_anime`
 --
 
 INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `genre`, `tipe`) VALUES
@@ -66,7 +66,7 @@ INSERT INTO `tb_anime` (`id_anime`, `judul`, `deskripsi`, `image`, `status`, `ge
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_banner`
+-- Table structure for table `tb_banner`
 --
 
 CREATE TABLE `tb_banner` (
@@ -76,18 +76,19 @@ CREATE TABLE `tb_banner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_banner`
+-- Dumping data for table `tb_banner`
 --
 
 INSERT INTO `tb_banner` (`id`, `image`, `id_anime`) VALUES
 (10, 'banner_1752305110.png', 14),
 (11, 'banner_1752308338.jpg', 9),
-(12, 'banner_1752308692.png', 13);
+(12, 'banner_1752308692.png', 13),
+(13, 'banner_1752413357.png', 20);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_episode`
+-- Table structure for table `tb_episode`
 --
 
 CREATE TABLE `tb_episode` (
@@ -100,7 +101,7 @@ CREATE TABLE `tb_episode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_episode`
+-- Dumping data for table `tb_episode`
 --
 
 INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video`, `episode`) VALUES
@@ -165,7 +166,7 @@ INSERT INTO `tb_episode` (`id_episode`, `id_anime`, `publisher`, `waktu`, `video
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_genre`
+-- Table structure for table `tb_genre`
 --
 
 CREATE TABLE `tb_genre` (
@@ -173,7 +174,7 @@ CREATE TABLE `tb_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_genre`
+-- Dumping data for table `tb_genre`
 --
 
 INSERT INTO `tb_genre` (`genre`) VALUES
@@ -211,7 +212,7 @@ INSERT INTO `tb_genre` (`genre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_users`
+-- Table structure for table `tb_users`
 --
 
 CREATE TABLE `tb_users` (
@@ -226,7 +227,7 @@ CREATE TABLE `tb_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_users`
+-- Dumping data for table `tb_users`
 --
 
 INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type`, `verif_code`, `is_verified`) VALUES
@@ -240,71 +241,71 @@ INSERT INTO `tb_users` (`id`, `name`, `email`, `password`, `avatar`, `login_type
 --
 
 --
--- Indeks untuk tabel `tb_anime`
+-- Indexes for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   ADD PRIMARY KEY (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_banner`
+-- Indexes for table `tb_banner`
 --
 ALTER TABLE `tb_banner`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_episode`
+-- Indexes for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD PRIMARY KEY (`id_episode`),
   ADD KEY `remove_on_delete` (`id_anime`);
 
 --
--- Indeks untuk tabel `tb_genre`
+-- Indexes for table `tb_genre`
 --
 ALTER TABLE `tb_genre`
   ADD UNIQUE KEY `genre` (`genre`);
 
 --
--- Indeks untuk tabel `tb_users`
+-- Indexes for table `tb_users`
 --
 ALTER TABLE `tb_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_anime`
+-- AUTO_INCREMENT for table `tb_anime`
 --
 ALTER TABLE `tb_anime`
   MODIFY `id_anime` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_banner`
+-- AUTO_INCREMENT for table `tb_banner`
 --
 ALTER TABLE `tb_banner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_episode`
+-- AUTO_INCREMENT for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   MODIFY `id_episode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_users`
+-- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tb_episode`
+-- Constraints for table `tb_episode`
 --
 ALTER TABLE `tb_episode`
   ADD CONSTRAINT `remove_on_delete` FOREIGN KEY (`id_anime`) REFERENCES `tb_anime` (`id_anime`) ON DELETE CASCADE;
